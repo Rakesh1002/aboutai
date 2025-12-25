@@ -1,0 +1,214 @@
+version: '3.8'
+
+# ===========================================
+# aboutai Backend - Complete Self-Hosted Stack
+# ===========================================
+# All services are self-hostable open source tools:
+# - SearXNG: Metasearch engine (replaces Algolia)
+# - Redis: Task queue and caching
+# - PostgreSQL: Optional database (or use Supabase)
+# - Celery: Background task processing
+# ===========================================
+
+services:
+  # ===========================================
+  # Core API
+  # ===========================================
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aboutai-api
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - REDIS_URL=redis://redis:6379/0
+      - SEARXNG_URL=http://searxng:8080
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - DATABASE_URL=${DATABASE_URL:-}
+      - DEBUG=${DEBUG:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./app:/app/app
+      - ../frontend/content:/app/frontend/content
+      - ./data:/app/data
+    depends_on:
+      - redis
+      - searxng
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ===========================================
+  # Background Workers
+  # ===========================================
+  
+  # Main pipeline worker
+  celery-worker-pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aboutai-worker-pipeline
+    command: celery -A app.core.celery_app worker --loglevel=info -Q pipeline -c 2
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - REDIS_URL=redis://redis:6379/0
+      - SEARXNG_URL=http://searxng:8080
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+    volumes:
+      - ./app:/app/app
+      - ../frontend/content:/app/frontend/content
+      - ./data:/app/data
+    depends_on:
+      - redis
+      - searxng
+    restart: unless-stopped
+
+  # Scraper worker
+  celery-worker-scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aboutai-worker-scraper
+    command: celery -A app.core.celery_app worker --loglevel=info -Q scraper -c 4
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - REDIS_URL=redis://redis:6379/0
+      - SEARXNG_URL=http://searxng:8080
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+    volumes:
+      - ./app:/app/app
+      - ../frontend/content:/app/frontend/content
+      - ./data:/app/data
+    depends_on:
+      - redis
+      - searxng
+    restart: unless-stopped
+
+  # Publisher worker
+  celery-worker-publisher:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aboutai-worker-publisher
+    command: celery -A app.core.celery_app worker --loglevel=info -Q publisher -c 1
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./app:/app/app
+      - ../frontend/content:/app/frontend/content
+      - ./data:/app/data
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  # ===========================================
+  # Scheduler
+  # ===========================================
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aboutai-beat
+    command: celery -A app.core.celery_app beat --loglevel=info
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./app:/app/app
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  # ===========================================
+  # Task Monitor (Optional)
+  # ===========================================
+  flower:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aboutai-flower
+    command: celery -A app.core.celery_app flower --port=5555
+    ports:
+      - "5555:5555"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  # ===========================================
+  # Self-Hosted Services
+  # ===========================================
+  
+  # Redis - Task Queue & Cache
+  redis:
+    image: redis:7-alpine
+    container_name: aboutai-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # SearXNG - Self-Hosted Metasearch Engine
+  searxng:
+    image: searxng/searxng:latest
+    container_name: aboutai-searxng
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
+      - searxng_data:/etc/searxng
+    environment:
+      - SEARXNG_BASE_URL=http://localhost:8080/
+      - SEARXNG_PORT=8080
+      - INSTANCE_NAME=aboutai Search
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL - Optional Database (can use Supabase instead)
+  # Uncomment if you want local database
+  # postgres:
+  #   image: postgres:16-alpine
+  #   container_name: aboutai-postgres
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     - POSTGRES_USER=aboutai
+  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-aboutai}
+  #     - POSTGRES_DB=aboutai
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U aboutai"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+volumes:
+  redis_data:
+  searxng_data:
+  # postgres_data:
+
+networks:
+  default:
+    name: aboutai-network

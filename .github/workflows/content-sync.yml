@@ -1,0 +1,79 @@
+name: Content Sync
+
+on:
+  # Run daily at 6 AM UTC
+  schedule:
+    - cron: '0 6 * * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      sync_type:
+        description: 'Type of sync to run'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - algolia
+          - tools
+          - newsletter
+
+jobs:
+  sync-algolia:
+    name: Sync Algolia Index
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.sync_type == 'all' || github.event.inputs.sync_type == 'algolia' || github.event_name == 'schedule' }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: apps/package-lock.json
+
+      - name: Install dependencies
+        working-directory: apps
+        run: npm ci
+
+      - name: Sync to Algolia
+        working-directory: apps
+        run: npm run sync:algolia
+        env:
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_ADMIN_KEY: ${{ secrets.ALGOLIA_ADMIN_KEY }}
+
+  generate-newsletter:
+    name: Generate Newsletter Draft
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.sync_type == 'all' || github.event.inputs.sync_type == 'newsletter' }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: apps
+        run: npm ci
+
+      - name: Generate newsletter
+        working-directory: apps
+        run: npm run generate:newsletter
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Upload newsletter draft
+        uses: actions/upload-artifact@v4
+        with:
+          name: newsletter-draft
+          path: apps/output/newsletter-*.md
+

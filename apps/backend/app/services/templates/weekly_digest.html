@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subject }}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .section h2 {
+            color: #667eea;
+            margin-top: 0;
+            font-size: 20px;
+            border-bottom: 2px solid #f0f0f5;
+            padding-bottom: 10px;
+        }
+        .tool-card, .news-card {
+            border-left: 4px solid #667eea;
+            padding: 16px;
+            margin: 16px 0;
+            background: #f8f9fa;
+            border-radius: 0 8px 8px 0;
+        }
+        .tool-card h3, .news-card h3 {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+        .tool-card a, .news-card a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .tool-card a:hover, .news-card a:hover {
+            text-decoration: underline;
+        }
+        .trust-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .trust-high { background: #d4edda; color: #155724; }
+        .trust-medium { background: #fff3cd; color: #856404; }
+        .trust-low { background: #f8d7da; color: #721c24; }
+        .podcast-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f5;
+        }
+        .podcast-item:last-child {
+            border-bottom: none;
+        }
+        .podcast-artwork {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            margin-right: 16px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 16px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 aboutAI Weekly</h1>
+        <p>{{ week_range }}</p>
+    </div>
+    
+    {% if featured_tool %}
+    <div class="section">
+        <h2>⭐ Featured Tool</h2>
+        <div class="tool-card">
+            <h3>
+                <a href="{{ featured_tool.url }}">{{ featured_tool.title }}</a>
+                {% if featured_tool.trust_score >= 70 %}
+                <span class="trust-badge trust-high">Trust: {{ featured_tool.trust_score }}%</span>
+                {% elif featured_tool.trust_score >= 40 %}
+                <span class="trust-badge trust-medium">Trust: {{ featured_tool.trust_score }}%</span>
+                {% else %}
+                <span class="trust-badge trust-low">Trust: {{ featured_tool.trust_score }}%</span>
+                {% endif %}
+            </h3>
+            <p>{{ featured_tool.description[:200] }}...</p>
+        </div>
+    </div>
+    {% endif %}
+    
+    {% if new_tools %}
+    <div class="section">
+        <h2>🚀 New AI Tools This Week</h2>
+        {% for tool in new_tools[:5] %}
+        <div class="tool-card">
+            <h3><a href="{{ tool.url }}">{{ tool.title }}</a></h3>
+            <p style="margin: 0; color: #6c757d; font-size: 14px;">{{ tool.category }} • {{ tool.pricing }}</p>
+        </div>
+        {% endfor %}
+        <a href="https://aboutai.app/tools" class="cta-button">View All Tools →</a>
+    </div>
+    {% endif %}
+    
+    {% if top_news %}
+    <div class="section">
+        <h2>📰 Top AI News</h2>
+        {% for news in top_news[:5] %}
+        <div class="news-card">
+            <h3><a href="{{ news.url }}">{{ news.title }}</a></h3>
+            <p style="margin: 4px 0 0; color: #6c757d; font-size: 13px;">{{ news.source }} • {{ news.published_at }}</p>
+        </div>
+        {% endfor %}
+        <a href="https://aboutai.app/news" class="cta-button">Read All News →</a>
+    </div>
+    {% endif %}
+    
+    {% if podcast_episodes %}
+    <div class="section">
+        <h2>🎙️ Podcast Picks</h2>
+        {% for episode in podcast_episodes[:3] %}
+        <div class="podcast-item">
+            <div>
+                <strong>{{ episode.show_title }}</strong><br>
+                <a href="{{ episode.episode_url }}">{{ episode.title[:60] }}{% if episode.title|length > 60 %}...{% endif %}</a>
+            </div>
+        </div>
+        {% endfor %}
+        <a href="https://aboutai.app/podcasts" class="cta-button">All Podcasts →</a>
+    </div>
+    {% endif %}
+    
+    <div class="footer">
+        <p>
+            You're receiving this because you subscribed to aboutAI Weekly.<br>
+            <a href="{{ unsubscribe_url }}">Unsubscribe</a> | <a href="https://aboutai.app">Visit aboutai.app</a>
+        </p>
+        <p style="margin-top: 16px;">
+            Made with ❤️ by the aboutAI team
+        </p>
+    </div>
+</body>
+</html>

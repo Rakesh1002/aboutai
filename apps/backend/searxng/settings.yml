@@ -1,0 +1,172 @@
+# ===========================================
+# SearXNG Configuration for aboutai
+# ===========================================
+# Self-hosted metasearch engine
+# Replaces Algolia with open source solution
+# ===========================================
+
+use_default_settings: true
+
+general:
+  debug: false
+  instance_name: "aboutai Search"
+  contact_url: false
+  enable_metrics: false
+
+search:
+  safe_search: 0
+  autocomplete: "google"
+  autocomplete_min: 2
+  default_lang: "en"
+  formats:
+    - html
+    - json
+
+server:
+  limiter: false
+  image_proxy: true
+  method: "GET"
+  default_http_headers:
+    X-Content-Type-Options: nosniff
+    X-Download-Options: noopen
+    X-Robots-Tag: noindex, nofollow
+    Referrer-Policy: no-referrer
+
+ui:
+  theme_args:
+    simple_style: light
+  default_locale: en
+  results_on_new_tab: false
+  infinite_scroll: false
+
+outgoing:
+  request_timeout: 10.0
+  max_request_timeout: 30.0
+  useragent_suffix: "aboutai-search"
+  pool_connections: 100
+  pool_maxsize: 20
+
+# ===========================================
+# Search Engines Configuration
+# ===========================================
+engines:
+  # ===========================================
+  # General Web Search
+  # ===========================================
+  - name: google
+    engine: google
+    shortcut: g
+    disabled: false
+    
+  - name: bing
+    engine: bing
+    shortcut: b
+    disabled: false
+    
+  - name: duckduckgo
+    engine: duckduckgo
+    shortcut: ddg
+    disabled: false
+    
+  - name: brave
+    engine: brave
+    shortcut: br
+    disabled: false
+
+  # ===========================================
+  # News Search
+  # ===========================================
+  - name: google news
+    engine: google_news
+    shortcut: gn
+    disabled: false
+    
+  - name: bing news
+    engine: bing_news
+    shortcut: bn
+    disabled: false
+
+  # ===========================================
+  # Tech & Developer
+  # ===========================================
+  - name: github
+    engine: github
+    shortcut: gh
+    disabled: false
+    
+  - name: gitlab
+    engine: gitlab
+    shortcut: gl
+    disabled: false
+    
+  - name: stackoverflow
+    engine: stackoverflow
+    shortcut: st
+    disabled: false
+    
+  - name: hacker news
+    engine: hackernews
+    shortcut: hn
+    disabled: false
+    
+  - name: npm
+    engine: npm
+    shortcut: npm
+    disabled: false
+    
+  - name: pypi
+    engine: pypi
+    shortcut: pip
+    disabled: false
+
+  # ===========================================
+  # Research & Academic
+  # ===========================================
+  - name: arxiv
+    engine: arxiv
+    shortcut: ar
+    disabled: false
+    categories: science
+    
+  - name: google scholar
+    engine: google_scholar
+    shortcut: gs
+    disabled: false
+    
+  - name: semantic scholar
+    engine: semantic_scholar
+    shortcut: ss
+    disabled: false
+
+  # ===========================================
+  # Social Media
+  # ===========================================
+  - name: reddit
+    engine: reddit
+    shortcut: re
+    disabled: false
+
+  # ===========================================
+  # Images
+  # ===========================================
+  - name: google images
+    engine: google_images
+    shortcut: gi
+    disabled: false
+    
+  - name: bing images
+    engine: bing_images
+    shortcut: bi
+    disabled: false
+
+# ===========================================
+# Categories
+# ===========================================
+categories_as_tabs:
+  general:
+  news:
+  science:
+  files:
+  images:
+  it:
+  social media:
