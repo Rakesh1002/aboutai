@@ -14,59 +14,37 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+const TITLE = "aboutai — One honest AI tool teardown a week";
+const DESCRIPTION =
+  "I run 30 AI-native startups. Every Friday I publish a long-form teardown of one tool I'm actually paying for, with screenshots, configs, latency numbers, and a verdict. No affiliates, no hype.";
+const SITE_URL = "https://aboutai.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "aboutai — The Trust Engine of the AI Economy",
-    template: "%s | aboutai",
+    default: TITLE,
+    template: "%s · 30stacks",
   },
-  description:
-    "The definitive source of truth for AI tools. Verified listings, investigative news, and cohort-based learning. Detect wrappers, discover native AI.",
-  keywords: [
-    "AI tools",
-    "artificial intelligence",
-    "AI directory",
-    "wrapper detector",
-    "AI news",
-    "trust score",
-    "AI verification",
-  ],
-  authors: [{ name: "aboutai" }],
-  creator: "aboutai",
+  description: DESCRIPTION,
+  authors: [{ name: "Rakesh Roushan", url: "https://x.com/rakesh1002" }],
+  creator: "Rakesh Roushan",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://aboutai.com",
+    url: SITE_URL,
     siteName: "aboutai",
-    title: "aboutai — The Trust Engine of the AI Economy",
-    description:
-      "The definitive source of truth for AI tools. Verified listings, investigative news, and cohort-based learning.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "aboutai",
-      },
-    ],
+    title: TITLE,
+    description: DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: "aboutai — The Trust Engine of the AI Economy",
-    description:
-      "The definitive source of truth for AI tools. Verified listings, investigative news, and cohort-based learning.",
-    images: ["/og-image.png"],
-    creator: "@aboutai",
+    title: TITLE,
+    description: DESCRIPTION,
+    creator: "@rakesh1002",
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
 };
 

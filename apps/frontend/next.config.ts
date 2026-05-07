@@ -2,10 +2,8 @@ import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
-  // Enable MDX
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
 
-  // Image optimization
   images: {
     remotePatterns: [
       {
@@ -15,47 +13,26 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // Experimental features
   experimental: {
-    // Enable MDX in app directory
     mdxRs: true,
   },
 
-  // Headers for security
   async headers() {
     return [
       {
         source: "/(.*)",
         headers: [
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "X-Frame-Options",
-            value: "DENY",
-          },
-          {
-            key: "X-XSS-Protection",
-            value: "1; mode=block",
-          },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
         ],
       },
-    ];
-  },
-
-  // Redirects
-  async redirects() {
-    return [
       {
-        source: "/tools/:slug/",
-        destination: "/tools/:slug",
-        permanent: true,
-      },
-      {
-        source: "/news/:slug/",
-        destination: "/news/:slug",
-        permanent: true,
+        source: "/stack.json",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Cache-Control", value: "public, max-age=3600" },
+        ],
       },
     ];
   },

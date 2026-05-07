@@ -1,325 +1,174 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
-import { TrustScore } from "@/components/ui/trust-score";
-import { WrapperIndicator } from "@/components/ui/wrapper-status";
 import { NewsletterSignup } from "@/components/newsletter-signup";
+import { getAllEssays } from "@/lib/content";
+
+const UPCOMING = [
+  {
+    week: "May 22",
+    title: "What we ripped out of 30 startups in Q1 2026",
+    note: "Every AI tool I tried and dropped across the portfolio in Jan–Mar. Why each one left.",
+  },
+  {
+    week: "May 29",
+    title: "Workers AI vs OpenAI vs Groq — three months of bills",
+    note: "Real invoices, redacted org names. P50/P99 latency at $X/month and Y QPS. The cost surprise nobody warned me about.",
+  },
+  {
+    week: "Jun 5",
+    title: "Six AI sales-agent tools, my real inbox, one week",
+    note: "Forensic, screenshot-heavy, names named. Two of six were silently using GPT-3.5.",
+  },
+  {
+    week: "Jun 12",
+    title: "Razorpay + Stripe + Cashfree for Indian SaaS in 2026",
+    note: "Which actually plays nice with India-first billing. UPI auto-debit reality check.",
+  },
+];
 
 export default function HomePage() {
-  const [url, setUrl] = useState("");
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [result, setResult] = useState<null | {
-    isWrapper: boolean;
-    confidence: number;
-    status: "native" | "fine_tuned" | "rag" | "wrapper";
-    signals: Record<string, boolean>;
-  }>(null);
-
-  const handleAnalyze = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!url) return;
-
-    setIsAnalyzing(true);
-    setResult(null);
-
-    // Simulate analysis (replace with real API call)
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    // Mock result
-    setResult({
-      isWrapper: Math.random() > 0.5,
-      confidence: Math.floor(Math.random() * 40) + 60,
-      status: ["native", "fine_tuned", "rag", "wrapper"][
-        Math.floor(Math.random() * 4)
-      ] as "native" | "fine_tuned" | "rag" | "wrapper",
-      signals: {
-        hasVectorDB: Math.random() > 0.5,
-        hasFineTuning: Math.random() > 0.5,
-        disclosesModel: Math.random() > 0.5,
-        directApiDependency: Math.random() > 0.5,
-      },
-    });
-
-    setIsAnalyzing(false);
-  };
+  const essays = getAllEssays();
 
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-zinc-200 bg-gradient-to-b from-zinc-50 to-white dark:border-zinc-800 dark:from-zinc-900 dark:to-zinc-950">
-        {/* Background pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8882_1px,transparent_1px),linear-gradient(to_bottom,#8882_1px,transparent_1px)] bg-[size:14px_24px]" />
+      <section className="border-b border-zinc-200 dark:border-zinc-800">
+        <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:py-28">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            </span>
+            Launches Friday May 22, 2026
+          </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
-          <div className="mx-auto max-w-3xl text-center">
-            {/* Badge */}
-            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/80 px-4 py-1.5 text-sm backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/80">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
-              <span className="text-zinc-600 dark:text-zinc-400">
-                Now verifying 500+ AI tools
-              </span>
-            </div>
+          <h1 className="text-balance text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl">
+            30 production AI stacks.
+            <br />
+            One honest teardown a week.
+          </h1>
 
-            {/* Headline */}
-            <h1 className="text-balance text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl lg:text-6xl">
-              The Trust Engine of the{" "}
-              <span className="gradient-text">AI Economy</span>
-            </h1>
+          <p className="mt-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+            I run 30 AI-native startups. I pay for the tools, I rip them out
+            when they break, and every Friday I publish what I learned —
+            screenshots, configs, latency numbers, billing line items, and a
+            three-state verdict.{" "}
+            <span className="font-medium text-zinc-900 dark:text-zinc-100">
+              No affiliates, no hype, no sponsored conclusions.
+            </span>
+          </p>
 
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-              Stop guessing. Start verifying. We test AI tools so you don&apos;t
-              have to. Detect wrappers, discover native AI, and make decisions
-              with confidence.
+          <div className="mt-10">
+            <NewsletterSignup variant="minimal" />
+            <p className="mt-3 text-xs text-zinc-500">
+              Free. One email Friday morning IST. Unsubscribe in one click.
             </p>
+          </div>
+        </div>
+      </section>
 
-            {/* Wrapper Detector */}
-            <Card className="mx-auto mt-10 max-w-xl p-6">
-              <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                🔍 Wrapper Detector
-              </h2>
-              <form onSubmit={handleAnalyze} className="flex gap-3">
-                <Input
-                  type="url"
-                  placeholder="Paste any AI tool URL..."
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  className="flex-1"
-                />
-                <Button type="submit" isLoading={isAnalyzing}>
-                  {isAnalyzing ? "Analyzing..." : "Analyze"}
-                </Button>
-              </form>
-
-              {/* Result */}
-              {result && (
-                <div className="mt-6 animate-slide-up space-y-4 border-t border-zinc-200 pt-6 dark:border-zinc-800">
-                  <div className="flex items-center justify-between">
-                    <WrapperIndicator status={result.status} />
-                    <TrustScore
-                      score={100 - (result.isWrapper ? 40 : 0)}
-                      size="sm"
-                    />
+      <section className="border-b border-zinc-200 dark:border-zinc-800">
+        <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+            What you&apos;ll read in the first 4 weeks
+          </h2>
+          <ul className="mt-6 divide-y divide-zinc-200 dark:divide-zinc-800">
+            {UPCOMING.map((item) => (
+              <li key={item.week} className="py-5">
+                <div className="flex items-baseline gap-4">
+                  <div className="w-16 shrink-0 font-mono text-xs text-zinc-500">
+                    {item.week}
                   </div>
-
-                  <div className="grid grid-cols-2 gap-3 text-sm">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={
-                          result.signals.hasVectorDB
-                            ? "text-emerald-500"
-                            : "text-zinc-400"
-                        }
-                      >
-                        {result.signals.hasVectorDB ? "✓" : "✗"}
-                      </span>
-                      <span className="text-zinc-600 dark:text-zinc-400">
-                        Vector Database
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={
-                          result.signals.hasFineTuning
-                            ? "text-emerald-500"
-                            : "text-zinc-400"
-                        }
-                      >
-                        {result.signals.hasFineTuning ? "✓" : "✗"}
-                      </span>
-                      <span className="text-zinc-600 dark:text-zinc-400">
-                        Fine-Tuning
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={
-                          result.signals.disclosesModel
-                            ? "text-emerald-500"
-                            : "text-zinc-400"
-                        }
-                      >
-                        {result.signals.disclosesModel ? "✓" : "✗"}
-                      </span>
-                      <span className="text-zinc-600 dark:text-zinc-400">
-                        Model Disclosure
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span
-                        className={
-                          !result.signals.directApiDependency
-                            ? "text-emerald-500"
-                            : "text-amber-500"
-                        }
-                      >
-                        {result.signals.directApiDependency ? "⚠" : "✓"}
-                      </span>
-                      <span className="text-zinc-600 dark:text-zinc-400">
-                        {result.signals.directApiDependency
-                          ? "Direct API Dep."
-                          : "Independent"}
-                      </span>
-                    </div>
+                  <div>
+                    <p className="font-semibold text-zinc-900 dark:text-zinc-100">
+                      {item.title}
+                    </p>
+                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                      {item.note}
+                    </p>
                   </div>
-
-                  <p className="text-xs text-zinc-500 dark:text-zinc-500">
-                    Confidence: {result.confidence}% •{" "}
-                    <Link href="/analyze" className="underline">
-                      View full report
-                    </Link>
-                  </p>
                 </div>
-              )}
-            </Card>
-          </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="border-b border-zinc-200 bg-white py-12 dark:border-zinc-800 dark:bg-zinc-950">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
-                500+
-              </div>
-              <div className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                Tools Verified
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
-                47%
-              </div>
-              <div className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                Wrappers Detected
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
-                10k+
-              </div>
-              <div className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                Newsletter Subs
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
-                5
-              </div>
-              <div className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                Verticals Covered
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-              Beyond Discovery. Into Verification.
+      {essays.length > 0 && (
+        <section className="border-b border-zinc-200 dark:border-zinc-800">
+          <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+              Latest teardowns
             </h2>
-            <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-              Other directories list tools. We test them.
-            </p>
+            <ul className="mt-6 divide-y divide-zinc-200 dark:divide-zinc-800">
+              {essays.slice(0, 5).map((essay) => (
+                <li key={essay.slug} className="py-5">
+                  <Link
+                    href={`/${essay.slug}`}
+                    className="group flex items-baseline gap-4"
+                  >
+                    <div className="w-16 shrink-0 font-mono text-xs text-zinc-500">
+                      {essay.publishedAt
+                        ? new Intl.DateTimeFormat("en-US", {
+                            month: "short",
+                            day: "numeric",
+                          }).format(new Date(essay.publishedAt))
+                        : "Draft"}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-zinc-900 group-hover:underline dark:text-zinc-100">
+                        {essay.title}
+                      </p>
+                      {essay.excerpt && (
+                        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                          {essay.excerpt}
+                        </p>
+                      )}
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
+        </section>
+      )}
 
-          <div className="mt-16 grid gap-8 md:grid-cols-3">
-            {/* Trust Engine */}
-            <Card className="p-6">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-100 text-2xl dark:bg-indigo-950">
-                🔬
-              </div>
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                Trust Engine
-              </h3>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Autonomous AI agents test every tool. We score reliability,
-                transparency, and proprietary value.
-              </p>
-              <Link
-                href="/tools"
-                className="mt-4 inline-flex text-sm font-medium text-indigo-600 dark:text-indigo-400"
+      <section className="border-b border-zinc-200 dark:border-zinc-800">
+        <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+            Who writes this
+          </h2>
+          <div className="mt-4 space-y-4 text-zinc-700 dark:text-zinc-300">
+            <p>
+              I&apos;m Rakesh Roushan. I run a portfolio of 30 AI-native
+              startups out of Bangalore — most pre-PMF, one (
+              <a
+                href="https://audiopod.ai"
+                className="underline hover:text-zinc-900 dark:hover:text-zinc-100"
               >
-                Browse verified tools →
-              </Link>
-            </Card>
-
-            {/* News & Intel */}
-            <Card className="p-6">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 text-2xl dark:bg-purple-950">
-                📰
-              </div>
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                News & Intelligence
-              </h3>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Cut through the hype. Our Hype Meter scores every story.
-                Vertical-specific coverage for AgTech, Legal, and more.
-              </p>
-              <Link
-                href="/news"
-                className="mt-4 inline-flex text-sm font-medium text-indigo-600 dark:text-indigo-400"
-              >
-                Read latest intel →
-              </Link>
-            </Card>
-
-            {/* Learn */}
-            <Card className="p-6">
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-2xl dark:bg-emerald-950">
-                🎓
-              </div>
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-                Cohort Learning
-              </h3>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                Live courses on building with AI. Architectural patterns, not
-                prompting tricks. Get certified.
-              </p>
-              <Link
-                href="/learn"
-                className="mt-4 inline-flex text-sm font-medium text-indigo-600 dark:text-indigo-400"
-              >
-                View courses →
-              </Link>
-            </Card>
+                AudioPod
+              </a>
+              ) profitable in 100+ countries.
+            </p>
+            <p>
+              That means I&apos;m paying for, integrating, and ripping out AI
+              tools every week — in production, with real customer money on the
+              line. Most reviews you read on the internet were written by
+              someone who tried the tool for an afternoon. Mine are written by
+              someone who shipped it for three weeks.
+            </p>
+            <p className="font-medium text-zinc-900 dark:text-zinc-100">
+              I&apos;m not selling anything except this newsletter.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section
-        id="newsletter"
-        className="border-t border-zinc-200 bg-zinc-50 py-24 dark:border-zinc-800 dark:bg-zinc-900"
-      >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-              Stay ahead of the curve
-            </h2>
-            <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-              Weekly digest of verified tools, honest news, and expert insights.
-              No hype. No spam.
-            </p>
-
-            <div className="mt-8">
-              <NewsletterSignup />
-            </div>
-
-            <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
-              Join 10,000+ professionals. Unsubscribe anytime.
-            </p>
+      <section>
+        <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
+          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            Get the first teardown Friday morning.
+          </h2>
+          <div className="mx-auto mt-8 max-w-md">
+            <NewsletterSignup variant="minimal" />
           </div>
         </div>
       </section>

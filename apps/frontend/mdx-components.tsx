@@ -2,7 +2,6 @@ import type { MDXComponents } from "mdx/types";
 import Image, { ImageProps } from "next/image";
 import Link from "next/link";
 
-// Custom components for MDX content
 function Callout({
   children,
   type = "info",
@@ -19,7 +18,6 @@ function Callout({
     error:
       "bg-red-50 border-red-500 text-red-900 dark:bg-red-950 dark:text-red-100",
   };
-
   return (
     <div className={`my-6 rounded-lg border-l-4 p-4 ${styles[type]}`}>
       {children}
@@ -27,61 +25,68 @@ function Callout({
   );
 }
 
-function TrustScoreBadge({ score }: { score: number }) {
-  const getColor = (score: number) => {
-    if (score >= 80) return "bg-emerald-500";
-    if (score >= 60) return "bg-amber-500";
-    return "bg-red-500";
-  };
-
+function Verdict({
+  state,
+  children,
+}: {
+  state: "ship-it" | "trial-only" | "avoid";
+  children: React.ReactNode;
+}) {
+  const styles = {
+    "ship-it": {
+      label: "Ship it",
+      cls: "bg-emerald-50 border-emerald-500 dark:bg-emerald-950/40",
+      pillCls:
+        "bg-emerald-600 text-white dark:bg-emerald-500 dark:text-emerald-950",
+    },
+    "trial-only": {
+      label: "Trial only",
+      cls: "bg-amber-50 border-amber-500 dark:bg-amber-950/40",
+      pillCls: "bg-amber-600 text-white dark:bg-amber-500 dark:text-amber-950",
+    },
+    avoid: {
+      label: "Avoid",
+      cls: "bg-red-50 border-red-500 dark:bg-red-950/40",
+      pillCls: "bg-red-600 text-white dark:bg-red-500 dark:text-red-950",
+    },
+  } as const;
+  const s = styles[state];
   return (
-    <div className="inline-flex items-center gap-2 rounded-full bg-zinc-900 px-3 py-1 text-sm font-medium text-white dark:bg-white dark:text-zinc-900">
-      <span className={`h-2 w-2 rounded-full ${getColor(score)}`} />
-      Trust Score: {score}
+    <div className={`my-8 rounded-lg border-l-4 p-5 ${s.cls}`}>
+      <div className="mb-3 inline-flex items-center gap-2 text-sm font-semibold">
+        <span className={`rounded-full px-2 py-0.5 text-xs ${s.pillCls}`}>
+          Verdict
+        </span>
+        <span className="text-zinc-900 dark:text-zinc-100">{s.label}</span>
+      </div>
+      <div className="text-zinc-800 dark:text-zinc-200">{children}</div>
     </div>
   );
 }
 
-function ToolCard({
-  name,
-  description,
-  trustScore,
-  href,
+function Receipt({
+  label,
+  children,
 }: {
-  name: string;
-  description: string;
-  trustScore: number;
-  href: string;
+  label?: string;
+  children: React.ReactNode;
 }) {
   return (
-    <Link
-      href={href}
-      className="group block rounded-xl border border-zinc-200 p-6 transition-all hover:border-zinc-400 hover:shadow-lg dark:border-zinc-800 dark:hover:border-zinc-600"
-    >
-      <div className="flex items-start justify-between">
-        <h3 className="text-lg font-semibold text-zinc-900 group-hover:text-indigo-600 dark:text-zinc-100">
-          {name}
-        </h3>
-        <TrustScoreBadge score={trustScore} />
+    <figure className="my-6 rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900">
+      {label && (
+        <figcaption className="mb-2 font-mono text-xs uppercase tracking-wider text-zinc-500">
+          {label}
+        </figcaption>
+      )}
+      <div className="font-mono text-xs leading-relaxed text-zinc-800 dark:text-zinc-200">
+        {children}
       </div>
-      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        {description}
-      </p>
-    </Link>
-  );
-}
-
-function PricingTable({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="my-8 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800">
-      <table className="w-full text-left text-sm">{children}</table>
-    </div>
+    </figure>
   );
 }
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    // Override default elements
     h1: ({ children }) => (
       <h1 className="mb-6 text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
         {children}
@@ -105,7 +110,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     a: ({ href, children }) => (
       <Link
         href={href || "#"}
-        className="font-medium text-indigo-600 underline-offset-4 hover:underline dark:text-indigo-400"
+        className="font-medium text-zinc-900 underline underline-offset-4 hover:text-zinc-700 dark:text-zinc-100 dark:hover:text-zinc-300"
       >
         {children}
       </Link>
@@ -162,15 +167,12 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </td>
     ),
 
-    // Custom components
     Callout,
-    TrustScoreBadge,
-    ToolCard,
-    PricingTable,
+    Verdict,
+    Receipt,
     Image,
     Link,
 
     ...components,
   };
 }
-

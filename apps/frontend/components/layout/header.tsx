@@ -4,13 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 const navigation = [
-  { name: "Tools", href: "/tools" },
-  { name: "News", href: "/news" },
-  { name: "Podcasts", href: "/podcasts" },
-  { name: "Learn", href: "/learn" },
+  { name: "Archive", href: "/archive" },
+  { name: "Stack", href: "/stack" },
+  { name: "About", href: "/about" },
 ];
 
 export function Header() {
@@ -19,8 +17,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-lg dark:border-zinc-800 dark:bg-zinc-950/80">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
+      <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-sm font-bold text-white dark:bg-white dark:text-zinc-900">
             ai
@@ -30,7 +27,6 @@ export function Header() {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
         <div className="hidden items-center gap-8 md:flex">
           {navigation.map((item) => (
             <Link
@@ -48,20 +44,13 @@ export function Header() {
           ))}
         </div>
 
-        {/* Desktop CTA */}
-        <div className="hidden items-center gap-4 md:flex">
-          <Link
-            href="/submit"
-            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-          >
-            Submit Tool
-          </Link>
-          <Button size="sm" asChild>
-            <Link href="#newsletter">Subscribe</Link>
-          </Button>
-        </div>
+        <Link
+          href="/#subscribe"
+          className="hidden h-8 items-center justify-center gap-1.5 rounded-md bg-zinc-900 px-3 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100 md:inline-flex"
+        >
+          Subscribe
+        </Link>
 
-        {/* Mobile Menu Button */}
         <button
           type="button"
           className="md:hidden"
@@ -92,7 +81,6 @@ export function Header() {
         </button>
       </nav>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="border-t border-zinc-200 bg-white px-4 py-4 dark:border-zinc-800 dark:bg-zinc-950 md:hidden">
           <div className="flex flex-col gap-4">
@@ -113,21 +101,15 @@ export function Header() {
             ))}
             <hr className="border-zinc-200 dark:border-zinc-800" />
             <Link
-              href="/submit"
-              className="text-sm font-medium text-zinc-600 dark:text-zinc-400"
+              href="/#subscribe"
               onClick={() => setMobileMenuOpen(false)}
+              className="inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-md bg-zinc-900 px-3 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
             >
-              Submit Tool
+              Subscribe
             </Link>
-            <Button size="sm" className="w-full" asChild>
-              <Link href="#newsletter" onClick={() => setMobileMenuOpen(false)}>
-                Subscribe
-              </Link>
-            </Button>
           </div>
         </div>
       )}
     </header>
   );
 }
-
