@@ -21,6 +21,7 @@ declare global {
     FROM_NAME: string;
     BULK_EMAIL_PROVIDER: "none" | "resend" | "ses";
     RESEND_API_KEY?: string;
+    SESSION_SECRET?: string;
   }
 }
 

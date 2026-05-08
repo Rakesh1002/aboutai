@@ -6,3 +6,5 @@ export * from "./layout/header";
 export * from "./layout/footer";
 
 export * from "./newsletter-signup";
+export * from "./edge-ad-rail";
+export * from "./inline-sponsor";

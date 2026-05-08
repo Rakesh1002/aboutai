@@ -1,7 +1,13 @@
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { getEssayBySlug, getEssaySlugs } from "@/lib/content";
+import { gateEssay, type Visitor } from "@/lib/paywall";
+import { readSession, SESSION_COOKIE_NAME } from "@/lib/session";
+import { getEnv } from "@/lib/cf";
+import { InlineEmailGate } from "@/components/inline-email-gate";
+import { PaywallCard } from "@/components/paywall-card";
 import { NewsletterSignup } from "@/components/newsletter-signup";
 import { formatDate } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -45,6 +51,20 @@ const VERDICT_LABEL: Record<string, { label: string; cls: string }> = {
   },
 };
 
+async function resolveVisitor(): Promise<Visitor> {
+  try {
+    const env = getEnv();
+    const secret = env.SESSION_SECRET;
+    if (!secret) return "anon";
+    const c = await cookies();
+    const raw = c.get(SESSION_COOKIE_NAME)?.value;
+    const session = await readSession(raw, secret);
+    return session ? session.tier : "anon";
+  } catch {
+    return "anon";
+  }
+}
+
 export default async function EssayPage({
   params,
 }: {
@@ -54,8 +74,11 @@ export default async function EssayPage({
   const essay = getEssayBySlug(slug);
   if (!essay) notFound();
 
-  const { content } = await compileMDX({
-    source: essay.content,
+  const visitor = await resolveVisitor();
+  const gated = gateEssay(essay, visitor);
+
+  const { content: visibleContent } = await compileMDX({
+    source: gated.visible,
     options: { parseFrontmatter: false },
   });
 
@@ -92,6 +115,10 @@ export default async function EssayPage({
             </span>
           )}
         </div>
+        <p className="mt-4 text-xs text-zinc-500">
+          Written by Rakesh Roushan in Bangalore — running 30 AI-native
+          startups, profitable on AudioPod, opinionated about everything else.
+        </p>
         {essay.excerpt && (
           <p className="mt-6 text-lg text-zinc-600 dark:text-zinc-400">
             {essay.excerpt}
@@ -99,13 +126,23 @@ export default async function EssayPage({
         )}
       </header>
 
-      <div className="prose prose-zinc dark:prose-invert max-w-none prose-headings:font-bold prose-a:underline">
-        {content}
+      <div className="prose prose-zinc max-w-none prose-headings:font-bold prose-a:underline dark:prose-invert">
+        {visibleContent}
       </div>
 
-      <div className="mt-16 border-t border-zinc-200 pt-10 dark:border-zinc-800">
-        <NewsletterSignup variant="card" source={`essay:${slug}`} />
-      </div>
+      {gated.state === "email-gate" && (
+        <InlineEmailGate source="inline-gate" essaySlug={slug} />
+      )}
+
+      {gated.state === "paywall" && (
+        <PaywallCard essaySlug={slug} />
+      )}
+
+      {gated.state === "open" && (
+        <div className="mt-16 border-t border-zinc-200 pt-10 dark:border-zinc-800">
+          <NewsletterSignup variant="card" source={`essay:${slug}`} />
+        </div>
+      )}
     </article>
   );
 }

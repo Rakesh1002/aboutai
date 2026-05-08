@@ -1,0 +1,26 @@
+[
+  {
+    "id": "house-stack",
+    "klass": "house",
+    "advertiser": "aboutai",
+    "headline": "What 30 startups actually run.",
+    "body": "Live Stack Mirror — every AI tool we use in production across the portfolio, updated monthly with diffs. Free.",
+    "cta": "See the stack",
+    "url": "/stack",
+    "starts_at": "2026-05-01",
+    "ends_at": "2099-12-31",
+    "weight": 1
+  },
+  {
+    "id": "house-friday",
+    "klass": "house",
+    "advertiser": "aboutai",
+    "headline": "Friday teardown drops at 7am IST.",
+    "body": "30 production AI stacks, one tool ripped apart with screenshots, configs, latency, billing, and a verdict. No affiliates.",
+    "cta": "Subscribe — free",
+    "url": "/#subscribe",
+    "starts_at": "2026-05-01",
+    "ends_at": "2099-12-31",
+    "weight": 1
+  }
+]

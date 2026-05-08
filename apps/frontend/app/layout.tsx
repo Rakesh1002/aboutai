@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { EdgeAdRail } from "@/components/edge-ad-rail";
 import "./globals.css";
 
 const inter = Inter({
@@ -14,9 +15,10 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-const TITLE = "aboutai — One honest AI tool teardown a week";
+const TITLE =
+  "aboutai — 5 minutes of AI for Indian builders, daily. Plus weekly teardowns from 30 production stacks.";
 const DESCRIPTION =
-  "I run 30 AI-native startups. Every Friday I publish a long-form teardown of one tool I'm actually paying for, with screenshots, configs, latency numbers, and a verdict. No affiliates, no hype.";
+  "Daily 5-minute AI brief for Indian builders, Mon–Thu at 7am IST. Plus a weekly Friday teardown of one AI tool I'm actually paying for across 30 production stacks — screenshots, configs, latency, billing, verdict. No affiliates, no hype.";
 const SITE_URL = "https://aboutai.space";
 
 export const metadata: Metadata = {
@@ -60,6 +62,8 @@ export default function RootLayout({
       >
         <div className="relative flex min-h-screen flex-col">
           <Header />
+          <EdgeAdRail side="left" />
+          <EdgeAdRail side="right" />
           <main className="flex-1">{children}</main>
           <Footer />
         </div>

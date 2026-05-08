@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEnv, newId, newToken, normalizeEmail, now } from "@/lib/cf";
 import { buildConfirmEmail, sendTransactional } from "@/lib/email";
+import {
+  buildSessionCookieAttrs,
+  createSession,
+  serializeCookie,
+} from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +30,17 @@ async function rateLimit(env: CloudflareEnv, key: string): Promise<boolean> {
     expirationTtl: RATE_LIMIT_WINDOW_SECONDS,
   });
   return true;
+}
+
+async function attachSessionCookie(
+  res: NextResponse,
+  subscriberId: string,
+  secret: string | undefined
+) {
+  if (!secret) return;
+  const token = await createSession(subscriberId, "free", secret);
+  const attrs = buildSessionCookieAttrs(token);
+  res.headers.append("Set-Cookie", serializeCookie(attrs));
 }
 
 export async function POST(req: NextRequest) {
@@ -67,8 +83,6 @@ export async function POST(req: NextRequest) {
     .first<{ id: string; status: string }>();
 
   let id = subscriberId;
-  let activeConfirmToken = confirmToken;
-  let activeUnsubToken = unsubscribeToken;
 
   if (!existing) {
     await env.DB.prepare(
@@ -102,7 +116,9 @@ export async function POST(req: NextRequest) {
       .bind(confirmToken, confirmExpires, id)
       .run();
   } else if (existing.status === "confirmed") {
-    return NextResponse.json({ ok: true, alreadyConfirmed: true });
+    const res = NextResponse.json({ ok: true, alreadyConfirmed: true });
+    await attachSessionCookie(res, existing.id, env.SESSION_SECRET);
+    return res;
   } else if (
     existing.status === "unsubscribed" ||
     existing.status === "bounced" ||
@@ -119,18 +135,7 @@ export async function POST(req: NextRequest) {
     )
       .bind(confirmToken, confirmExpires, id)
       .run();
-    activeUnsubToken =
-      (
-        await env.DB.prepare(
-          "SELECT unsubscribe_token AS t FROM subscribers WHERE id = ?"
-        )
-          .bind(id)
-          .first<{ t: string }>()
-      )?.t ?? unsubscribeToken;
   }
-
-  void activeConfirmToken;
-  void activeUnsubToken;
 
   const confirmUrl = `${env.SITE_URL}/api/confirm?token=${confirmToken}`;
   await sendTransactional(
@@ -139,5 +144,11 @@ export async function POST(req: NextRequest) {
     id
   );
 
-  return NextResponse.json({ ok: true, status: "pending" });
+  // Set the free-tier session cookie immediately so the rest of the
+  // current essay unlocks on the next render. The reader is "free" the
+  // moment they paste an email — double-opt-in is required for *email*
+  // delivery, not for *reading*. This is the conversion lever.
+  const res = NextResponse.json({ ok: true, status: "pending" });
+  await attachSessionCookie(res, id, env.SESSION_SECRET);
+  return res;
 }

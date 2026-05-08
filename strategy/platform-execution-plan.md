@@ -10,11 +10,51 @@
 
 ## 0. The thesis in one paragraph
 
-Build a defensible publishing platform — newsletter at the front, a custom CMS + member system + sponsored-showcase platform underneath — anchored on one weekly artifact only Rakesh can produce: rigorous, evidence-backed AI-tool teardowns from running 30 production AI stacks. Phase 1 (M0–M3) ships on Beehiiv with a custom Next.js front because building email infra before having readers is the classic founder mistake. Phase 2 (M3–M6) migrates to a fully owned platform on Cloudflare once the cadence is proven and revenue justifies infra time. Phase 3 (M6–M18) layers a sponsored Showcase, paid tiers, vendor verification, and a Stack Mirror data product on top of the same platform. Newsletter is the wedge; platform is the moat.
+aboutai is the **daily AI brief + weekly teardown publication for Indian AI builders and founders**. It layers three proven shapes: **Rundown AI's daily cadence** (Mon–Thu 5-minute India-flavored brief, LLM-assisted aggregation, inline sponsor reads), **Lenny's Newsletter weekly depth** (Friday teardowns from running 30 production AI stacks, paid archive, founder tier), and **TrustMRR's edge-rail ads** (sticky desktop sponsor slots on the long-form site). A standalone single-author publication brand at `aboutai.space`, separate from Rakesh's personal site. The platform is fully Cloudflare-native end-to-end (Workers + D1 + R2 + KV + Durable Objects + Workflows + Email Sending for transactional). Bulk newsletter sends route through a swap-friendly provider abstraction (default Resend) because Cloudflare Email Sending is transactional-only by CF policy. **Daily rundown = top-of-funnel growth engine + sponsor inventory; Friday teardown = wedge + trust moat; paid tier + Showcase + Stack Mirror Pro = downstream monetization.**
+
+## 0a. The three model anchors
+
+**Lenny's Newsletter** (Lenny Rachitsky, ~$5M ARR, ~250K paid subs by 2025) shape:
+- Single-author personality + product taste IS the trust signal
+- Weekly long-form free post + members-only deep dives
+- Paid sub at $15–25/mo, $150–240/yr — the durable revenue floor
+- One or two sponsor slots per issue, density-capped to preserve trust
+- Spinoffs that all reinforce the brand: podcast, job board, course community
+
+**Rundown AI** (Rowan Cheung, ~1M+ subs by 2025) shape:
+- Mon–Fri daily 5-minute brief — short, scannable, link-rich, opens before the reader's first meeting
+- LLM-assisted aggregation pipeline — human edits and adds voice, doesn't research every story by hand
+- 1–2 inline sponsor reads per issue at the top in native voice; premium placement, density-capped
+- Aggressive referral program drove the bulk of their first 500K subs
+- Builds a habit: readers open every weekday; missed sends break the habit and churn the list
+- Course / community / job-board upsells layer in later — the daily list is the engine, not the product
+
+**The aboutai twist on Rundown:** India-first lens (Indian AI startups, regulation, funding, jobs, builder context — global news included only when it matters for an Indian builder); fewer "X just shipped Y" press releases, more *what does this mean for you as a builder this week*; the Mon–Thu daily list cross-sells the Friday teardown.
+
+**TrustMRR** (sticky desktop edge-rail ads on a content site) shape:
+- Two narrow vertical rails on desktop only, 160–200px wide each
+- Hidden below the `md` breakpoint (mobile sees zero ads)
+- Three ad classes coexisting: paid sponsor (rotated, time-bounded, weighted), house (Rakesh's own newsletter signup / portfolio cross-promo when no paid ad fills the slot), exchange (free swap with peer publications — beehiiv-Boosts-equivalent built natively)
+- Click tracking via `/api/ad/[id]/click` → 302 to advertiser URL with UTM
+- Impression counting via Cloudflare Web Analytics (free, privacy-clean)
+- JSON-driven config in Phase 1 (no admin UI), D1-backed self-serve in Phase 3 once demand justifies the build
 
 ---
 
 ## 1. Phase 1 — M0–M3 (May 8 to Aug 8, 2026): Cadence, not infra
+
+### The cadence (the load-bearing decision)
+
+| Day | What ships | Who writes | Time/day |
+|-----|-----------|------------|----------|
+| Mon 7am IST | Daily Rundown (4–6 stories, India-flavored AI news + builder context, 1–2 inline sponsor reads) | LLM aggregation pipeline → Rakesh edits | 60–90 min |
+| Tue 7am IST | Daily Rundown | LLM → edit | 60–90 min |
+| Wed 7am IST | Daily Rundown | LLM → edit | 60–90 min |
+| Thu 7am IST | Daily Rundown — bottom teases tomorrow's teardown | LLM → edit | 60–90 min |
+| **Fri 7am IST** | **Friday Teardown** (1,500–2,500 words — replaces that day's daily rundown) | Rakesh, hand-written | 4–8 hours |
+| Sat–Sun | Silent | — | — |
+
+**Total weekly writing load: ~8–14 hours.** The aggregation pipeline does news collection + first-pass drafting on dailies; the human contribution is editorial taste, India-context layering, voice, and the Friday teardown — the only thing only Rakesh can produce. **Cadence kill-switches:** miss any 3 consecutive daily sends → cadence audit; miss two consecutive Friday teardowns → fold the venture.
 
 ### Why Beehiiv first, not custom
 
@@ -36,11 +76,14 @@ Build a defensible publishing platform — newsletter at the front, a custom CMS
               │                  aboutai.space                      │
               │     (Next.js on Cloudflare Pages, OpenNext)        │
               │                                                    │
-              │  /         landing + email capture                 │
-              │  /[slug]   essay reader (MDX in repo)              │
-              │  /stack    Stack Mirror v0 (static page + JSON)    │
-              │  /archive  list of essays                          │
-              │  /api/subscribe  → POST to Beehiiv API             │
+              │  /              landing + email capture            │
+              │  /[slug]        teardown reader (MDX in repo)      │
+              │  /daily         latest daily rundowns              │
+              │  /daily/[date]  daily rundown reader (MDX in repo) │
+              │  /stack         Stack Mirror v0 (static page+JSON) │
+              │  /archive       list of teardowns + dailies        │
+              │  /api/subscribe → POST to Beehiiv API              │
+              │  /api/aggregate ← cron 4am IST: drafts daily MDX   │
               └────────────────────────────────────────────────────┘
                                       │
                              subscribe writes go here
@@ -58,14 +101,15 @@ Build a defensible publishing platform — newsletter at the front, a custom CMS
 - Stack Mirror is a single `/stack` page driven by a YAML or JSON file in repo (`content/stack.json`). Update monthly, manually.
 - Subscribe form on every page POSTs to `/api/subscribe`, a Worker route that calls Beehiiv's `/v2/subscriptions` API.
 
-### Phase 1 monetization (4 streams, in order of arrival)
+### Phase 1 monetization (5 streams, in order of arrival)
 
-1. **Newsletter sponsorship** (target M2): one slot per Friday issue at $1,500 (rises to $3K when list crosses 25K). Sold direct via cold outreach to AI infra companies whose ICP = your reader (Modal, Helicone, LangSmith, Braintrust, BAML, Together AI, Outlines, Letta).
-2. **Beehiiv Ad Network** (target M2): auto-fill any unsold slot. Net ~$0.20–$1 per 1K opens. Floor revenue, not headline.
-3. **Paid newsletter tier** (target Aug 1): $25/mo or $240/yr. Two perks: full archive past 12 weeks, monthly group call. Use Beehiiv's native paid subs for Phase 1 (Stripe-backed, 2.5% platform fee). Rebuild on custom in Phase 2.
-4. **One-time premium teardown** (target M3): single deep-investigation piece sold as a one-off PDF + interactive demo at $49 — e.g., *"30 AI Sales Agents, 30 Days: The Receipts."* This is the appetizer for the paid tier and the proof-point that paywall conversion works.
+1. **Daily Rundown inline sponsor reads** (target M1, fastest revenue): 1–2 slots per daily issue, $200–500 per slot at <5K subs scaling to $1.5–3K per slot at 25K. Sold direct to AI infra / dev tools / India-startup tools (Modal, Helicone, Braintrust, Together AI, BAML, Outlines, Letta, Razorpay-style fintech, Indian devtool startups). Smaller per-slot price × 4 issues/week = sells faster than weekly teardown sponsorship at small list size.
+2. **Friday Teardown sponsorship** (target M2): one slot per Friday teardown at $1,500 (rises to $3K when list crosses 25K). Sold direct to vendors who specifically want depth-association — Modal, LangSmith, Braintrust, BAML.
+3. **Beehiiv Ad Network** (target M2): auto-fill any unsold slot on either daily or teardown. Net ~$0.20–$1 per 1K opens. Floor revenue, not headline.
+4. **Paid newsletter tier** (target Aug 1): $25/mo or $240/yr. Two perks: full archive past 12 weeks, monthly group call. Use Beehiiv's native paid subs for Phase 1 (Stripe-backed, 2.5% platform fee). Rebuild on custom in Phase 2.
+5. **One-time premium teardown** (target M3): single deep-investigation piece sold as a one-off PDF + interactive demo at $49 — e.g., *"30 AI Sales Agents, 30 Days: The Receipts."* Appetizer for the paid tier and proof-point that paywall conversion works.
 
-**Phase 1 revenue target by Aug 8:** **$3K MRR floor / $5–8K MRR plausible.** Below $3K = fold the writing into AudioPod and stop.
+**Phase 1 revenue target by Aug 8:** **$3K MRR floor / $5–10K MRR plausible** (daily inline sponsors carry the floor; teardown sponsors + paid tier upside). Below $3K = fold the writing into AudioPod and stop.
 
 ---
 
@@ -271,6 +315,8 @@ PDF + web report, $999 download or free for paid subs. Real data from your portf
 | 13 | Custom benchmarks for vendors | P3 | $5–15K project | $60K |
 | 14 | Pay-Per-Crawl (Cloudflare AI Crawl Control / TollBit) | P2 | per-crawl | $20K speculative |
 | 15 | MCP server for vendor discovery (LLMs query aboutai) | P3 | $0.001/query metered | $30K speculative |
+| 16 | **Edge-rail ads (left + right desktop)** — TrustMRR-style | P1 → P2 | $250–1,500 / month / slot | $48K (8 slots × $500/mo blended) |
+| 17 | **Newsletter exchange / Boosts cross-promo** | P2 | $0.50–1.50 CPA paid swaps; free swaps free | sub-acquisition mechanic |
 
 **Plausible total ARR at 50K subs:** $1.1M-$1.6M. **At 100K subs:** $2-3M.
 
@@ -290,18 +336,18 @@ PDF + web report, $999 download or free for paid subs. Real data from your portf
 
 | Type | Cadence | Length | Format | Paywall | Purpose |
 |------|---------|--------|--------|---------|---------|
-| **Teardown** (flagship) | 1/week, Friday | 1,500–2,500 words | MDX, screenshots, configs, verdict | Latest 12 weeks free; older paid | Wedge content. Every Friday without exception. |
-| **Receipts** (mid-week post) | 1/week, Wed | 200–400 words | One chart, one verdict, X-native | Free | Funnel-top for X. Shareable. |
-| **Stack Snapshot** | 1/month, last Tue | 800–1,200 words | Diff vs last month | Free | The Stack Mirror's editorial face. |
-| **Vertical Issue** | 1/quarter | 3,000–5,000 words | Multi-vendor analysis in one industry (India fintech, EU compliance, healthtech, dev infra) | Free, sponsored optional | Geography + industry moats. |
+| **Daily Rundown** | Mon–Thu, 7am IST | 5-min read, 4–6 stories | India-flavored AI news + builder context; 1–2 inline sponsor reads | Free | Top-of-funnel growth, daily habit, sponsor inventory. |
+| **Friday Teardown** (flagship) | 1/week, Fri 7am IST | 1,500–2,500 words | MDX, screenshots, configs, verdict | Latest 12 weeks free; older paid | Wedge. Trust moat. Replaces that day's daily rundown. |
+| **Stack Snapshot** | 1/month, last Tue (replaces that Tue's daily) | 800–1,200 words | Diff vs last month | Free | The Stack Mirror's editorial face. |
+| **Vertical Issue** | 1/quarter (replaces a Friday teardown) | 3,000–5,000 words | Multi-vendor analysis in one Indian industry (fintech, healthtech, dev infra, ecomm AI) | Free, sponsored optional | Indian-builder ICP-specific moat. |
 | **Showcase listing** | Continuous | Trust card + brief | Paid placement, transparent label | Free to read | Phase 3 monetization. |
 | **Sponsored Spotlight** | ≤6/year | Same as teardown but vendor-funded | Editorial control retained | Free, prominently labeled | Phase 3 monetization. |
-| **Open Letters** | Ad-hoc, ~1/month | 800–1,500 words | Opinion piece with strong stance | Free | Brand voice. *"Stop Building AI Wrappers"*-energy. |
+| **Open Letters** | Ad-hoc, ~1/month (replaces a daily) | 800–1,500 words | Opinion piece with strong stance | Free | Brand voice. *"Stop Building AI Wrappers"*-energy. |
 | **State of AI Stacks** report | 1/quarter | 30–60 pages | PDF + web | Paid ($999) or free for subs | Anchor data product, link bait. |
 | **Live Run** | 1/month | 60 min | Twitter Space / YouTube Live | Free, paid get Q&A access | Community-building without a community. |
 | **One-Time Premium** | Ad-hoc, 4–6/year | 4,000+ words | PDF + interactive | One-time $5–49 | Microtransaction proof + lead magnet. |
 
-**The discipline:** weekly Teardown is sacred. Receipts is a low-cost bonus. Everything else is opportunistic and never permitted to displace the Friday ship.
+**The discipline:** Daily Rundown M–Thu is sacred (the habit). Friday Teardown is sacred (the wedge). Everything else is opportunistic and never permitted to displace either.
 
 ---
 
@@ -395,22 +441,24 @@ Even though Phase 1 ships on Beehiiv, every Phase 1 decision must be made with P
 
 | Date | Action | Output |
 |------|--------|--------|
-| **Fri May 8** | Confirm `aboutai.space` + handles secured. Strip backend on `strip-and-rebrand` branch. | Branch shipped. Domain confirmed. |
-| **Sat–Sun May 9–10** | Land new landing page (single email form). Beehiiv configured. `/api/subscribe` Worker live. | Landing page on staging. |
-| **Mon–Thu May 11–14** | Pre-write essays #1–#4. | 4 MDX files in repo. |
-| **Fri May 15** | Deploy to production at `aboutai.space`. Soft-launch on personal X. | Public site live. ~50–100 first subs. |
-| **Mon May 18** | Public launch tweet. Reply-guy day. | First 200 subs. |
-| **Fri May 22** | Essay #1 ships: *"What we ripped out of 30 startups in Q1 2026."* | First send. Target 1K reads. |
-| **Wed May 27** | First Receipts post (mid-week, X-only). | Funnel-top trial. |
-| **Fri May 29** | Essay #2: *"Cloudflare Workers AI vs OpenAI vs Groq — three months of bills."* | HN-bait piece. |
-| **Tue Jun 9** | ProductHunt launch (anchored on Stack Mirror, not newsletter). | Top-5 day finish target. |
-| **Fri Jun 12** | Essay #3: *"6 AI sales-agent tools, real inbox, one week."* | Conversion-bait piece. |
-| **Tue Jun 16** | First HN submission attempt (essay #2). | Front-page or data. |
-| **Fri Jun 19** | Essay #4: *"Razorpay + Stripe + Cashfree for Indian SaaS."* | India vertical signal. |
-| **Tue Jul 1** | Stack Mirror v0 ships at `/stack`. First public diff post. | The moat artifact debuts. |
-| **Mon Jul 13** | First sponsor cold-outreach campaign (5 vendors). | First yes target by Aug 1. |
+| **Fri May 8** | Confirm `aboutai.space` + handles secured. Lock ICP (Indian AI builders/founders) and tagline. | Domain confirmed. |
+| **Sat–Sun May 9–10** | Land landing page (single email form). Beehiiv configured with daily + teardown segments. `/api/subscribe` Worker live. Build daily rundown infra: `/daily/[date]` route, MDX template, LLM aggregation Worker (cron Mon–Thu 4am IST), inline sponsor read component. Pre-write Teardown #1. | Landing on staging. Daily pipeline tested end-to-end. |
+| **Mon May 11** | Final pipeline dry-run: aggregate → draft → human-edit → render → Beehiiv send → archive. Ship landing to production at `aboutai.space`. Soft-launch on personal X. | Public site live. ~50–100 first subs. |
+| **Tue May 12** | First public Daily Rundown ships at 7am IST. Public launch tweet. Reply-guy day. | First daily live. ~200 subs. |
+| **Wed May 13** | Daily Rundown #2. | Habit forms. |
+| **Thu May 14** | Daily Rundown #3 — bottom teases tomorrow's debut teardown. | Anticipation. |
+| **Fri May 15** | First Friday Teardown: *"What we ripped out of 30 startups in Q1 2026."* (replaces Friday's daily) | First teardown. Target 1K reads. |
+| **Mon May 18 onward** | Steady rhythm: daily M–Thu + Friday teardown. | Cadence proven. |
+| **Fri May 22** | Teardown #2: *"Cloudflare Workers AI vs OpenAI vs Groq — three months of bills."* | HN-bait piece. |
+| **Fri May 29** | Teardown #3: *"6 AI sales-agent tools, real Indian inbox, one week."* | Conversion-bait + Indian-builder ICP land. |
+| **Tue Jun 9** | ProductHunt launch (anchored on Stack Mirror + the daily-habit pitch). | Top-5 day finish target. |
+| **Fri Jun 12** | Teardown #4: *"Razorpay + Stripe + Cashfree for Indian SaaS — pick the right gateway."* | India vertical signal. |
+| **Tue Jun 16** | First HN submission attempt (Teardown #2). | Front-page or data. |
+| **Mon Jun 22** | First daily-sponsor cold-outreach campaign (10 vendors). Daily inline sponsor inventory sells faster than teardown at small list size. | First daily sponsor live by Jul 1. |
+| **Tue Jul 1** | Stack Mirror v0 ships at `/stack`. First public diff post (replaces that Tue's daily). | Moat artifact debuts. |
+| **Mon Jul 13** | First teardown-sponsor cold-outreach campaign (5 vendors). | First teardown sponsor by Aug 1. |
 | **Fri Aug 1** | Paid tier opens. First 50 paying members target. Premium one-off teardown launches as $49 PDF. | First paywall live. |
-| **Fri Aug 8** | M3 revenue checkpoint: ≥$3K MRR or fold the venture. | Decision day. |
+| **Fri Aug 8** | M3 revenue checkpoint: ≥$3K MRR or fold. | Decision day. |
 
 ---
 
@@ -427,13 +475,14 @@ Even though Phase 1 ships on Beehiiv, every Phase 1 decision must be made with P
 
 ## 11. Open questions for you to decide before launch
 
-1. **India-first framing or global-default-with-India-issues?** I lean global-default-with-quarterly-India-vertical-issues. Cleaner brand, doesn't cap TAM.
-2. **Founder tier — open in P1 ($1,500/yr DM access) or wait until P2?** I lean P2. P1 is about cadence not high-touch.
-3. **Will you tweet from `@rakesh1002` or build `@aboutai` from scratch?** Lead with personal in P1, transition to brand handle when paid subs >500.
-4. **Do you commit to never running an affiliate link?** I think yes. The trust math doesn't survive even one slip.
-5. **Tagline lock-in.** Working tagline: *"30 production AI stacks. One honest teardown a week."* — uses the unfair seat in the strapline so the generic name carries weight. If you don't like it, lock an alternative tonight.
+1. **ICP framing.** ✅ **LOCKED 2026-05-08:** Indian AI builders/founders — devs, founders, PMs building AI products in India. Daily rundown and teardowns are written for this reader; global news appears only when it matters for an Indian builder. Quarterly Vertical Issues stay India-first (fintech, healthtech, dev infra, ecomm AI).
+2. **Founder tier — open in P1 ($1,500/yr DM access) or wait until P2?** Lean P2. P1 is about cadence not high-touch.
+3. **Tweet from `@rakesh1002` or build `@aboutai` from scratch?** Lead with personal in P1, transition to brand handle when paid subs >500.
+4. **Never run an affiliate link?** ✅ **LOCKED:** Yes — never. The trust math doesn't survive even one slip.
+5. **Tagline.** ✅ **LOCKED 2026-05-08:** *"5 minutes of AI for Indian builders, daily. Plus weekly teardowns from 30 production stacks."* Mirrors Rundown's outcome+time formula, adds India ICP and 30-stacks authority. Use verbatim in homepage hero, OG meta, email subject prefix is "[aboutai] " (tagline doesn't fit in subject lines).
+6. **Daily aggregation pipeline shape — fully automated draft, or human-curates story list first?** Lean fully automated draft (LLM picks 8 candidate stories from RSS pool, drafts each, human picks 4–6 and edits). Keeps morning load to 60–90 min. The alternative (human picks story list first, LLM drafts each) inflates daily load to 90–120 min and risks missed days.
 
-Decide these by EOD May 9. Then ship.
+Decide #2, #3, #5, #6 by EOD May 9. Then ship.
 
 ---
 
