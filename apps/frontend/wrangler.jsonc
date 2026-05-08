@@ -1,0 +1,43 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "aboutai",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-04-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "aboutai",
+      "database_id": "REPLACE_WITH_REAL_D1_ID",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  "send_email": [
+    {
+      "name": "EMAIL"
+    }
+  ],
+
+  "kv_namespaces": [
+    {
+      "binding": "RATELIMITS",
+      "id": "REPLACE_WITH_REAL_KV_ID"
+    }
+  ],
+
+  "vars": {
+    "SITE_URL": "https://aboutai.com",
+    "FROM_EMAIL": "hello@aboutai.com",
+    "FROM_NAME": "Rakesh from aboutai",
+    "BULK_EMAIL_PROVIDER": "none"
+  }
+}

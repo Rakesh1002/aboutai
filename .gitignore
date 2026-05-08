@@ -5,3 +5,9 @@
 .dev.vars
 node_modules/
 .DS_Store
+
+# Next.js / OpenNext / Wrangler build artifacts
+.next/
+.open-next/
+.wrangler/
+worker-configuration.d.ts
