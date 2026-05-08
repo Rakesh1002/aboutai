@@ -35,8 +35,8 @@
   ],
 
   "vars": {
-    "SITE_URL": "https://aboutai.com",
-    "FROM_EMAIL": "hello@aboutai.com",
+    "SITE_URL": "https://aboutai.space",
+    "FROM_EMAIL": "hello@aboutai.space",
     "FROM_NAME": "Rakesh from aboutai",
     "BULK_EMAIL_PROVIDER": "none"
   }

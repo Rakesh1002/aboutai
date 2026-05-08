@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 const TITLE = "aboutai — One honest AI tool teardown a week";
 const DESCRIPTION =
   "I run 30 AI-native startups. Every Friday I publish a long-form teardown of one tool I'm actually paying for, with screenshots, configs, latency numbers, and a verdict. No affiliates, no hype.";
-const SITE_URL = "https://aboutai.com";
+const SITE_URL = "https://aboutai.space";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -1,6 +1,4 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+import stackData from "@/content/stack.json";
 
 export type EssayType =
   | "teardown"
@@ -50,46 +48,22 @@ export interface StackStartup {
   tools: StackEntry[];
 }
 
-const CONTENT_DIR = path.join(process.cwd(), "content");
-const ESSAYS_DIR = path.join(CONTENT_DIR, "essays");
-const STACK_FILE = path.join(CONTENT_DIR, "stack.json");
-
-function ensureDir(dir: string) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-}
-
-function getMDXFiles(dir: string): string[] {
-  ensureDir(dir);
-  try {
-    return fs.readdirSync(dir).filter((f) => f.endsWith(".mdx"));
-  } catch {
-    return [];
-  }
-}
-
-function parseEssay(filePath: string): Essay {
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(fileContent);
-  return { ...(data as EssayFrontmatter), content };
-}
+// Essays are added by importing them explicitly here once a teardown ships.
+// This keeps the bundle deterministic and Worker-safe (no runtime fs reads).
+// Convention: import the .mdx file as a module, attach the frontmatter we
+// want exposed in listings.
+const ESSAYS: Essay[] = [];
 
 export function getAllEssays(): Essay[] {
-  return getMDXFiles(ESSAYS_DIR)
-    .map((file) => parseEssay(path.join(ESSAYS_DIR, file)))
-    .filter((e) => e.status !== "draft")
-    .sort((a, b) => {
-      const aDate = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
-      const bDate = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
-      return bDate - aDate;
-    });
+  return ESSAYS.filter((e) => e.status !== "draft").sort((a, b) => {
+    const aDate = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+    const bDate = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+    return bDate - aDate;
+  });
 }
 
 export function getEssayBySlug(slug: string): Essay | null {
-  const filePath = path.join(ESSAYS_DIR, `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) return null;
-  return parseEssay(filePath);
+  return getAllEssays().find((e) => e.slug === slug) ?? null;
 }
 
 export function getEssaySlugs(): string[] {
@@ -97,7 +71,5 @@ export function getEssaySlugs(): string[] {
 }
 
 export function getStack(): StackStartup[] {
-  if (!fs.existsSync(STACK_FILE)) return [];
-  const raw = fs.readFileSync(STACK_FILE, "utf-8");
-  return JSON.parse(raw) as StackStartup[];
+  return stackData as StackStartup[];
 }

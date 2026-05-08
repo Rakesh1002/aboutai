@@ -33,7 +33,7 @@ Build a defensible publishing platform — newsletter at the front, a custom CMS
 
 ```
               ┌────────────────────────────────────────────────────┐
-              │                  aboutai.com                      │
+              │                  aboutai.space                      │
               │     (Next.js on Cloudflare Pages, OpenNext)        │
               │                                                    │
               │  /         landing + email capture                 │
@@ -87,12 +87,12 @@ Trigger: ≥5K free subs AND ≥$3K MRR. If both gates hit, build the custom pla
 ```
                               ┌────────────────────────┐
                               │   Next.js on CF Pages  │
-                              │      aboutai.com      │
+                              │      aboutai.space      │
                               └───────────┬────────────┘
                                           │
                               ┌───────────┴────────────┐
                               │  CF Workers + Hono     │
-                              │  (api.aboutai.com)    │
+                              │  (api.aboutai.space)    │
                               └─┬──┬──┬──┬──┬──┬──┬──┬─┘
                                 │  │  │  │  │  │  │  │
         ┌───────────────────────┘  │  │  │  │  │  │  └────────────┐
@@ -233,7 +233,7 @@ If a tool is a wrapper, you keep the money and publish the wrapper finding. This
 
 **The hard rule on labels:** every Showcase listing carries the classification stamp — *Native AI* / *Fine-Tuned* / *RAG App* / *Wrapper* — visible at first glance. Wrappers are not blocked from listing; they just get labeled. Honesty IS the product.
 
-**The viral mechanic:** the embeddable `Verified by aboutai` badge that vendors put on their own homepage links back to their trust card on `aboutai.com`. Each badge is free distribution.
+**The viral mechanic:** the embeddable `Verified by aboutai` badge that vendors put on their own homepage links back to their trust card on `aboutai.space`. Each badge is free distribution.
 
 ### Stack Mirror Pro — the data product
 
@@ -311,9 +311,9 @@ A normal newsletter has one channel: email. A platform has many. The aboutai dis
 
 ### Owned (you control the channel)
 1. **Email list** (Beehiiv → custom in P2). Highest value asset. Always exportable.
-2. **`aboutai.com`** itself — essays, archive, Stack Mirror, Showcase. Compounds as content library grows.
+2. **`aboutai.space`** itself — essays, archive, Stack Mirror, Showcase. Compounds as content library grows.
 3. **`/stack.json`** public feed — feeds Perplexity / ChatGPT / Claude / Gemini answers. AEO/LLM-discoverability moat.
-4. **MCP server** at `mcp.aboutai.com` (P3) — agents query your vendor data natively. Becomes default answer source for "what AI tool should I use for X."
+4. **MCP server** at `mcp.aboutai.space` (P3) — agents query your vendor data natively. Becomes default answer source for "what AI tool should I use for X."
 5. **Embeddable widgets** — `Verified by aboutai` badges on vendor sites. Free distribution.
 6. **RSS feed** — for old-school readers and AI agents both.
 
@@ -384,9 +384,9 @@ Even though Phase 1 ships on Beehiiv, every Phase 1 decision must be made with P
 
 1. **Don't use Beehiiv-hosted forms.** Use a custom form that POSTs to `/api/subscribe`, which then calls Beehiiv's API. This way, when you migrate, you change one line of code; subscribers never see an interruption.
 2. **Capture full attribution** at signup time: source, UTMs, referrer, user-agent. Beehiiv stores this; you also write it into a `signups.csv` shadow log in R2 for safety.
-3. **Essay content lives in MDX in repo, not in Beehiiv.** Beehiiv only ever gets a copy. The canonical post is at `aboutai.com/[slug]`. Beehiiv sends are pull-from-RSS or copy-paste only.
+3. **Essay content lives in MDX in repo, not in Beehiiv.** Beehiiv only ever gets a copy. The canonical post is at `aboutai.space/[slug]`. Beehiiv sends are pull-from-RSS or copy-paste only.
 4. **Paid subs in Phase 1 use Beehiiv's Stripe-backed system.** Stripe customer IDs come back to you on export. Same Stripe account = no payment migration; just rebuild the gating logic.
-5. **Use one canonical URL for everything.** No `email.aboutai.com` or `app.aboutai.com` micro-domains in P1. One brand, one domain, easier to consolidate later.
+5. **Use one canonical URL for everything.** No `email.aboutai.space` or `app.aboutai.space` micro-domains in P1. One brand, one domain, easier to consolidate later.
 6. **Schema-design the Stack Mirror today** (`content/stack.json`) in the same shape as Phase 2's D1 `stack_entries` table. Then the Phase 2 migration is `cat content/stack.json | wrangler d1 execute --command "INSERT..."`.
 
 ---
@@ -395,10 +395,10 @@ Even though Phase 1 ships on Beehiiv, every Phase 1 decision must be made with P
 
 | Date | Action | Output |
 |------|--------|--------|
-| **Fri May 8** | Confirm `aboutai.com` + handles secured. Strip backend on `strip-and-rebrand` branch. | Branch shipped. Domain confirmed. |
+| **Fri May 8** | Confirm `aboutai.space` + handles secured. Strip backend on `strip-and-rebrand` branch. | Branch shipped. Domain confirmed. |
 | **Sat–Sun May 9–10** | Land new landing page (single email form). Beehiiv configured. `/api/subscribe` Worker live. | Landing page on staging. |
 | **Mon–Thu May 11–14** | Pre-write essays #1–#4. | 4 MDX files in repo. |
-| **Fri May 15** | Deploy to production at `aboutai.com`. Soft-launch on personal X. | Public site live. ~50–100 first subs. |
+| **Fri May 15** | Deploy to production at `aboutai.space`. Soft-launch on personal X. | Public site live. ~50–100 first subs. |
 | **Mon May 18** | Public launch tweet. Reply-guy day. | First 200 subs. |
 | **Fri May 22** | Essay #1 ships: *"What we ripped out of 30 startups in Q1 2026."* | First send. Target 1K reads. |
 | **Wed May 27** | First Receipts post (mid-week, X-only). | Funnel-top trial. |
