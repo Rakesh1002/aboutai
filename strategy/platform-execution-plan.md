@@ -1,8 +1,8 @@
-# aboutai — Platform Execution Plan
+# The AI Teardown — Platform Execution Plan
 
 **Date:** 2026-05-08
 **Operator:** Rakesh Roushan, solo
-**Brand:** `aboutai` (kept — supports the AI-tool-teardown persona; no rename)
+**Brand:** `The AI Teardown` at `theaiteardown.com` (renamed 2026-05-09 from working title `aboutai`; original `aboutai.space` lapsed and the .com / .ai variants were squatted, so the publication's flagship artifact became the name)
 **Companion docs:** `strategy/verdict-2026-04-27.md` (the venture verdict + wedge thesis)
 **Status:** This is the operating plan, not a strategy memo. Every line is an action.
 
@@ -10,7 +10,7 @@
 
 ## 0. The thesis in one paragraph
 
-aboutai is the **daily AI brief + weekly teardown publication for Indian AI builders and founders**. It layers three proven shapes: **Rundown AI's daily cadence** (Mon–Thu 5-minute India-flavored brief, LLM-assisted aggregation, inline sponsor reads), **Lenny's Newsletter weekly depth** (Friday teardowns from running 30 production AI stacks, paid archive, founder tier), and **TrustMRR's edge-rail ads** (sticky desktop sponsor slots on the long-form site). A standalone single-author publication brand at `aboutai.space`, separate from Rakesh's personal site. The platform is fully Cloudflare-native end-to-end (Workers + D1 + R2 + KV + Durable Objects + Workflows + Email Sending for transactional). Bulk newsletter sends route through a swap-friendly provider abstraction (default Resend) because Cloudflare Email Sending is transactional-only by CF policy. **Daily rundown = top-of-funnel growth engine + sponsor inventory; Friday teardown = wedge + trust moat; paid tier + Showcase + Stack Mirror Pro = downstream monetization.**
+The AI Teardown is the **daily AI brief + weekly teardown publication for Indian AI builders and founders**. It layers three proven shapes: **Rundown AI's daily cadence** (Mon–Thu 5-minute India-flavored brief, LLM-assisted aggregation, inline sponsor reads), **Lenny's Newsletter weekly depth** (Friday teardowns from running 30 production AI stacks, paid archive, founder tier), and **TrustMRR's edge-rail ads** (sticky desktop sponsor slots on the long-form site). A standalone single-author publication brand at `theaiteardown.com`, separate from Rakesh's personal site. The platform is fully Cloudflare-native end-to-end (Workers + D1 + R2 + KV + Durable Objects + Workflows + Email Sending for transactional). Bulk newsletter sends route through a swap-friendly provider abstraction (default Resend) because Cloudflare Email Sending is transactional-only by CF policy. **Daily rundown = top-of-funnel growth engine + sponsor inventory; Friday teardown = wedge + trust moat; paid tier + Showcase + Stack Mirror Pro = downstream monetization.**
 
 ## 0a. The three model anchors
 
@@ -29,7 +29,7 @@ aboutai is the **daily AI brief + weekly teardown publication for Indian AI buil
 - Builds a habit: readers open every weekday; missed sends break the habit and churn the list
 - Course / community / job-board upsells layer in later — the daily list is the engine, not the product
 
-**The aboutai twist on Rundown:** India-first lens (Indian AI startups, regulation, funding, jobs, builder context — global news included only when it matters for an Indian builder); fewer "X just shipped Y" press releases, more *what does this mean for you as a builder this week*; the Mon–Thu daily list cross-sells the Friday teardown.
+**The The AI Teardown twist on Rundown:** India-first lens (Indian AI startups, regulation, funding, jobs, builder context — global news included only when it matters for an Indian builder); fewer "X just shipped Y" press releases, more *what does this mean for you as a builder this week*; the Mon–Thu daily list cross-sells the Friday teardown.
 
 **TrustMRR** (sticky desktop edge-rail ads on a content site) shape:
 - Two narrow vertical rails on desktop only, 160–200px wide each
@@ -73,7 +73,7 @@ aboutai is the **daily AI brief + weekly teardown publication for Indian AI buil
 
 ```
               ┌────────────────────────────────────────────────────┐
-              │                  aboutai.space                      │
+              │                  theaiteardown.com                      │
               │     (Next.js on Cloudflare Pages, OpenNext)        │
               │                                                    │
               │  /              landing + email capture            │
@@ -123,7 +123,7 @@ Trigger: ≥5K free subs AND ≥$3K MRR. If both gates hit, build the custom pla
 - **Sponsored Showcase:** a curated, transparent vendor directory inside the site that uses your trust system and earns vendor placement fees — Beehiiv has nothing for this.
 - **Stack Mirror Pro:** paid API access + MCP server for your portfolio's AI tool usage data. Custom-only.
 - **Member portal:** profile, comments on essays, saved teardowns, monthly call attendance. Custom-only.
-- **Embeddable widgets:** `Verified by aboutai` badges that vendors place on their sites — viral mechanic. Custom-only.
+- **Embeddable widgets:** `Verified by The AI Teardown` badges that vendors place on their sites — viral mechanic. Custom-only.
 - **Cost discipline at scale:** Beehiiv at 100K subs ~$500/mo. Cloudflare Email Service + Workers at 100K subs ~$60–100/mo, fully owned.
 
 ### Phase 2 architecture (Cloudflare-native, inside your default stack)
@@ -131,12 +131,12 @@ Trigger: ≥5K free subs AND ≥$3K MRR. If both gates hit, build the custom pla
 ```
                               ┌────────────────────────┐
                               │   Next.js on CF Pages  │
-                              │      aboutai.space      │
+                              │      theaiteardown.com      │
                               └───────────┬────────────┘
                                           │
                               ┌───────────┴────────────┐
                               │  CF Workers + Hono     │
-                              │  (api.aboutai.space)    │
+                              │  (api.theaiteardown.com)    │
                               └─┬──┬──┬──┬──┬──┬──┬──┬─┘
                                 │  │  │  │  │  │  │  │
         ┌───────────────────────┘  │  │  │  │  │  │  └────────────┐
@@ -260,7 +260,7 @@ Trigger: ≥15K free subs AND ≥$10K MRR.
 
 ### The Showcase: a paid directory that doesn't break trust
 
-Futurepedia broke trust by selling the score. The aboutai rule:
+Futurepedia broke trust by selling the score. The The AI Teardown rule:
 
 > **Vendors pay for the audit. They never pay for the verdict.**
 
@@ -273,11 +273,11 @@ If a tool is a wrapper, you keep the money and publish the wrapper finding. This
 | **Listed** | $99 / month | Inclusion in `/showcase` directory, public trust card with classification (native / fine-tuned / RAG / wrapper), basic profile | A trustworthy directory of tools whose makers paid for the audit and accepted the verdict, however brutal |
 | **Featured** | $499 / month | Above-fold in their category, expanded profile, link to their teardown if one exists | Up-front signal that someone serious enough to pay for audit also showed up for it |
 | **Spotlight** | $1,999 / one-time | Sponsored deep teardown (clearly labeled, vendor doesn't see verdict before publish), permanent placement, social-card distribution | Long-form audit they wouldn't otherwise get; clear sponsored-but-honest label |
-| **Verified Vendor (annual)** | $4,999 / year | Continuous monitoring of their tool, trust-card refreshed quarterly, "Verified by aboutai" embeddable badge for their own site | Highest-trust signal in the category |
+| **Verified Vendor (annual)** | $4,999 / year | Continuous monitoring of their tool, trust-card refreshed quarterly, "Verified by The AI Teardown" embeddable badge for their own site | Highest-trust signal in the category |
 
 **The hard rule on labels:** every Showcase listing carries the classification stamp — *Native AI* / *Fine-Tuned* / *RAG App* / *Wrapper* — visible at first glance. Wrappers are not blocked from listing; they just get labeled. Honesty IS the product.
 
-**The viral mechanic:** the embeddable `Verified by aboutai` badge that vendors put on their own homepage links back to their trust card on `aboutai.space`. Each badge is free distribution.
+**The viral mechanic:** the embeddable `Verified by The AI Teardown` badge that vendors put on their own homepage links back to their trust card on `theaiteardown.com`. Each badge is free distribution.
 
 ### Stack Mirror Pro — the data product
 
@@ -286,7 +286,7 @@ The Stack Mirror at `/stack` is a moat. It says: "Here are the 30 AI-native star
 **Free:** read-only HTML view + JSON feed at `/stack.json`.
 **Pro ($499/mo for AI infra companies):** full historical timeline (every tool every startup ever ran, when added, when removed, why), category leaderboards, alerts when a competitor wins a slot, MCP server endpoint for their own internal AI agents to query.
 
-The buyer of Stack Mirror Pro is the head of product at Modal / Helicone / Braintrust / Together AI / etc. — they want to know what real production AI stacks look like and would pay $5K/yr for a quarterly snapshot. aboutai has one of <50 such datasets in existence.
+The buyer of Stack Mirror Pro is the head of product at Modal / Helicone / Braintrust / Together AI / etc. — they want to know what real production AI stacks look like and would pay $5K/yr for a quarterly snapshot. The AI Teardown has one of <50 such datasets in existence.
 
 ### Quarterly *State of AI Stacks* report
 
@@ -314,7 +314,7 @@ PDF + web report, $999 download or free for paid subs. Real data from your portf
 | 12 | Live Run events (Twitter Spaces / YT Live) | P3 | sponsored $5K each | $40K |
 | 13 | Custom benchmarks for vendors | P3 | $5–15K project | $60K |
 | 14 | Pay-Per-Crawl (Cloudflare AI Crawl Control / TollBit) | P2 | per-crawl | $20K speculative |
-| 15 | MCP server for vendor discovery (LLMs query aboutai) | P3 | $0.001/query metered | $30K speculative |
+| 15 | MCP server for vendor discovery (LLMs query The AI Teardown) | P3 | $0.001/query metered | $30K speculative |
 | 16 | **Edge-rail ads (left + right desktop)** — TrustMRR-style | P1 → P2 | $250–1,500 / month / slot | $48K (8 slots × $500/mo blended) |
 | 17 | **Newsletter exchange / Boosts cross-promo** | P2 | $0.50–1.50 CPA paid swaps; free swaps free | sub-acquisition mechanic |
 
@@ -322,7 +322,7 @@ PDF + web report, $999 download or free for paid subs. Real data from your portf
 
 ### OUT — stay disciplined, refuse these
 
-- ❌ **Pay-for-positive-verdict.** The thesis dies the day a Spotlight goes live with a vendor controlling the conclusion. This is the ONE inviolable rule. Every Spotlight has the contract clause: "aboutai retains full editorial control over verdict; vendor cannot review draft before publish."
+- ❌ **Pay-for-positive-verdict.** The thesis dies the day a Spotlight goes live with a vendor controlling the conclusion. This is the ONE inviolable rule. Every Spotlight has the contract clause: "The AI Teardown retains full editorial control over verdict; vendor cannot review draft before publish."
 - ❌ **Affiliate links.** Even one affiliate link nukes editorial trust. If you must, allow only post-teardown affiliate buttons for tools you scored `Ship it`, capped at 5% of revenue, fully disclosed, and never on items where the verdict is ambiguous.
 - ❌ **Maven-style cohorts taught by you.** You don't have time. Defer or partner-only with rev share, after M12.
 - ❌ **Open Discord/Circle community.** Ghost towns kill brand. Defer until 25K paid+free subs.
@@ -353,19 +353,19 @@ PDF + web report, $999 download or free for paid subs. Real data from your portf
 
 ## 6. Distribution-as-a-platform strategy
 
-A normal newsletter has one channel: email. A platform has many. The aboutai distribution surface, ranked by leverage:
+A normal newsletter has one channel: email. A platform has many. The The AI Teardown distribution surface, ranked by leverage:
 
 ### Owned (you control the channel)
 1. **Email list** (Beehiiv → custom in P2). Highest value asset. Always exportable.
-2. **`aboutai.space`** itself — essays, archive, Stack Mirror, Showcase. Compounds as content library grows.
+2. **`theaiteardown.com`** itself — essays, archive, Stack Mirror, Showcase. Compounds as content library grows.
 3. **`/stack.json`** public feed — feeds Perplexity / ChatGPT / Claude / Gemini answers. AEO/LLM-discoverability moat.
-4. **MCP server** at `mcp.aboutai.space` (P3) — agents query your vendor data natively. Becomes default answer source for "what AI tool should I use for X."
-5. **Embeddable widgets** — `Verified by aboutai` badges on vendor sites. Free distribution.
+4. **MCP server** at `mcp.theaiteardown.com` (P3) — agents query your vendor data natively. Becomes default answer source for "what AI tool should I use for X."
+5. **Embeddable widgets** — `Verified by The AI Teardown` badges on vendor sites. Free distribution.
 6. **RSS feed** — for old-school readers and AI agents both.
 
 ### Rented but high-trust
 7. **Founder X / LinkedIn personal accounts.** Where the wedge audience already lives.
-8. **aboutai branded X / LinkedIn.** Secondary. Don't lead with brand handle while you have <10K subs.
+8. **The AI Teardown branded X / LinkedIn.** Secondary. Don't lead with brand handle while you have <10K subs.
 9. **Bluesky** — insurance against X churn, low effort to mirror.
 10. **Hacker News.** Asymmetric, ≤1/month submissions.
 11. **Reddit communities** — r/SaaS, r/Indianstartups, r/LocalLLaMA, r/MachineLearning, r/AI_Agents. Be a regular, not a brand.
@@ -384,7 +384,7 @@ Google AI Overviews are eating informational SEO. The new equivalent is being qu
 - **Named-entity-rich content.** Mention exact tool names, exact prices, exact latencies — LLMs love specific facts.
 - **Public structured data** at `/stack.json`, `/api/vendors`, `/api/teardowns` (read-only public endpoints).
 - **`/llms.txt`** at site root listing the top 50 essays + Stack Mirror as authoritative entry points.
-- **MCP server** — by P3, vendors and agents query aboutai directly.
+- **MCP server** — by P3, vendors and agents query The AI Teardown directly.
 - **Cloudflare Pay-Per-Crawl** (when GA at scale) — earn from being read by AI bots.
 - **Pure server-side rendering** (no SPA hydration walls). Already covered by Next.js + OpenNext on CF Pages.
 
@@ -430,9 +430,9 @@ Even though Phase 1 ships on Beehiiv, every Phase 1 decision must be made with P
 
 1. **Don't use Beehiiv-hosted forms.** Use a custom form that POSTs to `/api/subscribe`, which then calls Beehiiv's API. This way, when you migrate, you change one line of code; subscribers never see an interruption.
 2. **Capture full attribution** at signup time: source, UTMs, referrer, user-agent. Beehiiv stores this; you also write it into a `signups.csv` shadow log in R2 for safety.
-3. **Essay content lives in MDX in repo, not in Beehiiv.** Beehiiv only ever gets a copy. The canonical post is at `aboutai.space/[slug]`. Beehiiv sends are pull-from-RSS or copy-paste only.
+3. **Essay content lives in MDX in repo, not in Beehiiv.** Beehiiv only ever gets a copy. The canonical post is at `theaiteardown.com/[slug]`. Beehiiv sends are pull-from-RSS or copy-paste only.
 4. **Paid subs in Phase 1 use Beehiiv's Stripe-backed system.** Stripe customer IDs come back to you on export. Same Stripe account = no payment migration; just rebuild the gating logic.
-5. **Use one canonical URL for everything.** No `email.aboutai.space` or `app.aboutai.space` micro-domains in P1. One brand, one domain, easier to consolidate later.
+5. **Use one canonical URL for everything.** No `email.theaiteardown.com` or `app.theaiteardown.com` micro-domains in P1. One brand, one domain, easier to consolidate later.
 6. **Schema-design the Stack Mirror today** (`content/stack.json`) in the same shape as Phase 2's D1 `stack_entries` table. Then the Phase 2 migration is `cat content/stack.json | wrangler d1 execute --command "INSERT..."`.
 
 ---
@@ -441,9 +441,9 @@ Even though Phase 1 ships on Beehiiv, every Phase 1 decision must be made with P
 
 | Date | Action | Output |
 |------|--------|--------|
-| **Fri May 8** | Confirm `aboutai.space` + handles secured. Lock ICP (Indian AI builders/founders) and tagline. | Domain confirmed. |
+| **Fri May 8** | Confirm `theaiteardown.com` + handles secured. Lock ICP (Indian AI builders/founders) and tagline. | Domain confirmed. |
 | **Sat–Sun May 9–10** | Land landing page (single email form). Beehiiv configured with daily + teardown segments. `/api/subscribe` Worker live. Build daily rundown infra: `/daily/[date]` route, MDX template, LLM aggregation Worker (cron Mon–Thu 4am IST), inline sponsor read component. Pre-write Teardown #1. | Landing on staging. Daily pipeline tested end-to-end. |
-| **Mon May 11** | Final pipeline dry-run: aggregate → draft → human-edit → render → Beehiiv send → archive. Ship landing to production at `aboutai.space`. Soft-launch on personal X. | Public site live. ~50–100 first subs. |
+| **Mon May 11** | Final pipeline dry-run: aggregate → draft → human-edit → render → Beehiiv send → archive. Ship landing to production at `theaiteardown.com`. Soft-launch on personal X. | Public site live. ~50–100 first subs. |
 | **Tue May 12** | First public Daily Rundown ships at 7am IST. Public launch tweet. Reply-guy day. | First daily live. ~200 subs. |
 | **Wed May 13** | Daily Rundown #2. | Habit forms. |
 | **Thu May 14** | Daily Rundown #3 — bottom teases tomorrow's debut teardown. | Anticipation. |
@@ -477,9 +477,9 @@ Even though Phase 1 ships on Beehiiv, every Phase 1 decision must be made with P
 
 1. **ICP framing.** ✅ **LOCKED 2026-05-08:** Indian AI builders/founders — devs, founders, PMs building AI products in India. Daily rundown and teardowns are written for this reader; global news appears only when it matters for an Indian builder. Quarterly Vertical Issues stay India-first (fintech, healthtech, dev infra, ecomm AI).
 2. **Founder tier — open in P1 ($1,500/yr DM access) or wait until P2?** Lean P2. P1 is about cadence not high-touch.
-3. **Tweet from `@rakesh1002` or build `@aboutai` from scratch?** Lead with personal in P1, transition to brand handle when paid subs >500.
+3. **Tweet from `@rakesh1002` or build `@The AI Teardown` from scratch?** Lead with personal in P1, transition to brand handle when paid subs >500.
 4. **Never run an affiliate link?** ✅ **LOCKED:** Yes — never. The trust math doesn't survive even one slip.
-5. **Tagline.** ✅ **LOCKED 2026-05-08:** *"5 minutes of AI for Indian builders, daily. Plus weekly teardowns from 30 production stacks."* Mirrors Rundown's outcome+time formula, adds India ICP and 30-stacks authority. Use verbatim in homepage hero, OG meta, email subject prefix is "[aboutai] " (tagline doesn't fit in subject lines).
+5. **Tagline.** ✅ **LOCKED 2026-05-08:** *"5 minutes of AI for Indian builders, daily. Plus weekly teardowns from 30 production stacks."* Mirrors Rundown's outcome+time formula, adds India ICP and 30-stacks authority. Use verbatim in homepage hero, OG meta, email subject prefix is "[The AI Teardown] " (tagline doesn't fit in subject lines).
 6. **Daily aggregation pipeline shape — fully automated draft, or human-curates story list first?** Lean fully automated draft (LLM picks 8 candidate stories from RSS pool, drafts each, human picks 4–6 and edits). Keeps morning load to 60–90 min. The alternative (human picks story list first, LLM drafts each) inflates daily load to 90–120 min and risks missed days.
 
 Decide #2, #3, #5, #6 by EOD May 9. Then ship.

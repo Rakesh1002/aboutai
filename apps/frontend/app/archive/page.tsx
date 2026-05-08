@@ -5,7 +5,7 @@ import { NewsletterSignup } from "@/components/newsletter-signup";
 
 export const metadata = {
   title: "Archive",
-  description: "Every aboutai teardown, in order.",
+  description: "Every teardown, in order.",
 };
 
 export default function ArchivePage() {

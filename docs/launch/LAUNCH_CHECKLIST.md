@@ -56,7 +56,7 @@ T-14 days    T-7 days     T-3 days     T-1 day      LAUNCH      T+1 day
 
 - [ ] Vercel project configured
 - [ ] Production environment variables set
-- [ ] Custom domain configured (`aboutai.com`)
+- [ ] Custom domain configured (`theaiteardown.com`)
 - [ ] DNS propagation complete
 - [ ] CDN caching configured
 - [ ] Error pages (404, 500) customized

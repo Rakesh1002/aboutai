@@ -381,7 +381,7 @@ def calculate_trust_score(tool_data): \
 - Build Next.js frontend.
 - Deploy "Wrapper Detector" public tool.
 - Launch Beehiiv newsletter.
-- **Deliverable:** Public launch of aboutai.com with core directory.
+- **Deliverable:** Public launch of theaiteardown.com with core directory.
 
 ### Phase 3: The Trust Engine Activation (Weeks 9-12)
 

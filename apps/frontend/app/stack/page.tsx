@@ -4,7 +4,7 @@ import { NewsletterSignup } from "@/components/newsletter-signup";
 export const metadata = {
   title: "Stack Mirror",
   description:
-    "The AI tools every startup in the aboutai portfolio is currently running in production. Updated monthly.",
+    "The AI tools every startup in the 30-stack portfolio is currently running in production. Updated monthly.",
 };
 
 const STATUS_STYLE: Record<string, string> = {

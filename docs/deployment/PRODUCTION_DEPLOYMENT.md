@@ -76,7 +76,7 @@ Create `.env.example` for documentation:
 
 # Application
 NODE_ENV=production
-NEXT_PUBLIC_APP_URL=https://aboutai.com
+NEXT_PUBLIC_APP_URL=https://theaiteardown.com
 
 # --------------------------------------------
 # DATABASE (Supabase)
@@ -366,7 +366,7 @@ vercel --prod
 ### 4. Domain Configuration
 
 1. Go to Vercel Dashboard → Project → Settings → Domains
-2. Add `aboutai.com` and `www.aboutai.com`
+2. Add `theaiteardown.com` and `www.theaiteardown.com`
 3. Configure DNS:
 
 ```
@@ -572,7 +572,7 @@ syncTools();
 Configure webhook in Beehiiv dashboard:
 
 ```
-Webhook URL: https://aboutai.com/api/webhooks/beehiiv
+Webhook URL: https://theaiteardown.com/api/webhooks/beehiiv
 Events: subscription.created, subscription.deleted
 ```
 
@@ -587,7 +587,7 @@ Events: subscription.created, subscription.deleted
 2. Configure webhooks:
 
 ```
-Webhook URL: https://aboutai.com/api/webhooks/stripe
+Webhook URL: https://theaiteardown.com/api/webhooks/stripe
 Events:
   - checkout.session.completed
   - customer.subscription.updated

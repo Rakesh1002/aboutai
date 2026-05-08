@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "aboutai",
+  "name": "theaiteardown",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-04-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -35,9 +35,9 @@
   ],
 
   "vars": {
-    "SITE_URL": "https://aboutai.space",
-    "FROM_EMAIL": "hello@aboutai.space",
-    "FROM_NAME": "Rakesh from aboutai",
+    "SITE_URL": "https://theaiteardown.com",
+    "FROM_EMAIL": "hello@theaiteardown.com",
+    "FROM_NAME": "Rakesh from The AI Teardown",
     "BULK_EMAIL_PROVIDER": "none"
   }
 }

@@ -37,7 +37,7 @@ function wrapHtml(args: { preheader: string; bodyHtml: string }): string {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>aboutai</title>
+    <title>The AI Teardown</title>
   </head>
   <body style="margin:0;padding:0;background:#fafafa;color:#18181b;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
     <span style="display:none!important;color:transparent;visibility:hidden;height:0;width:0;">${escapeHtml(args.preheader)}</span>
@@ -49,7 +49,7 @@ function wrapHtml(args: { preheader: string; bodyHtml: string }): string {
           </td></tr>
         </table>
         <p style="font-size:12px;color:#71717a;margin-top:24px;">
-          Sent by aboutai · Bangalore · written by Rakesh Roushan
+          Sent by The AI Teardown · Bangalore · written by Rakesh Roushan
         </p>
       </td></tr>
     </table>
@@ -120,10 +120,10 @@ export function buildConfirmEmail(args: {
   confirmUrl: string;
 }): SendArgs {
   const preheader =
-    "Confirm your subscription to aboutai — one click, one teardown a week.";
+    "Confirm your subscription to The AI Teardown — one click, one teardown a week.";
   const bodyHtml = `
     <h1 style="font-size:22px;margin:0 0 16px;color:#18181b;">Confirm your subscription</h1>
-    <p style="margin:0 0 16px;">You asked to subscribe to <strong>aboutai</strong> — one honest AI tool teardown a week, written from running 30 production AI stacks.</p>
+    <p style="margin:0 0 16px;">You asked to subscribe to <strong>The AI Teardown</strong> — one honest AI tool teardown a week, written from running 30 production AI stacks.</p>
     <p style="margin:0 0 24px;">Click the button below to confirm. (If you didn't sign up, just ignore this email — you're not on the list.)</p>
     <p style="margin:0 0 24px;">
       <a href="${args.confirmUrl}" style="display:inline-block;background:#18181b;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:600;">Confirm subscription</a>
@@ -132,13 +132,13 @@ export function buildConfirmEmail(args: {
     <p style="font-size:13px;color:#52525b;margin:0;word-break:break-all;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;">${escapeHtml(args.confirmUrl)}</p>
   `;
   const text =
-    `Confirm your subscription to aboutai.\n\n` +
-    `aboutai is one honest AI tool teardown a week, written from running 30 production AI stacks.\n\n` +
+    `Confirm your subscription to The AI Teardown.\n\n` +
+    `The AI Teardown is one honest AI tool teardown a week, written from running 30 production AI stacks.\n\n` +
     `Confirm here:\n${args.confirmUrl}\n\n` +
     `If you didn't sign up, just ignore this email — you're not on the list.\n`;
   return {
     to: args.email,
-    subject: "Confirm your aboutai subscription",
+    subject: "Confirm your subscription to The AI Teardown",
     html: wrapHtml({ preheader, bodyHtml }),
     text,
   };
@@ -153,7 +153,7 @@ export function buildWelcomeEmail(args: {
     "You're in. First teardown drops Friday May 22, 2026 — IST morning.";
   const bodyHtml = `
     <h1 style="font-size:22px;margin:0 0 16px;color:#18181b;">You're in.</h1>
-    <p style="margin:0 0 16px;">Thanks for subscribing to <strong>aboutai</strong>. Here's what to expect:</p>
+    <p style="margin:0 0 16px;">Thanks for subscribing to <strong>The AI Teardown</strong>. Here's what to expect:</p>
     <ul style="margin:0 0 16px;padding-left:20px;color:#27272a;">
       <li style="margin:0 0 8px;">One long-form teardown of a real AI tool, every Friday morning IST.</li>
       <li style="margin:0 0 8px;">Screenshots, configs, latency numbers, billing line items — receipts only.</li>
@@ -166,7 +166,7 @@ export function buildWelcomeEmail(args: {
   `;
   const text =
     `You're in.\n\n` +
-    `Thanks for subscribing to aboutai. Here's what to expect:\n\n` +
+    `Thanks for subscribing to The AI Teardown. Here's what to expect:\n\n` +
     `- One long-form teardown of a real AI tool, every Friday morning IST.\n` +
     `- Screenshots, configs, latency numbers, billing line items.\n` +
     `- A three-state verdict: Ship it, Trial only, or Avoid.\n` +
@@ -177,7 +177,7 @@ export function buildWelcomeEmail(args: {
     `Unsubscribe: ${args.unsubscribeUrl}\n`;
   return {
     to: args.email,
-    subject: "You're in — welcome to aboutai",
+    subject: "You're in — welcome to The AI Teardown",
     html: wrapHtml({ preheader, bodyHtml }),
     text,
     unsubscribeUrl: args.unsubscribeUrl,
@@ -185,19 +185,19 @@ export function buildWelcomeEmail(args: {
 }
 
 export function buildUnsubscribeReceipt(args: { email: string }): SendArgs {
-  const preheader = "You've been unsubscribed from aboutai.";
+  const preheader = "You've been unsubscribed from The AI Teardown.";
   const bodyHtml = `
     <h1 style="font-size:22px;margin:0 0 16px;color:#18181b;">Unsubscribed.</h1>
-    <p style="margin:0 0 16px;">You won't get any more emails from aboutai. No follow-ups, no "are you sure" sequence.</p>
+    <p style="margin:0 0 16px;">You won't get any more emails from The AI Teardown. No follow-ups, no "are you sure" sequence.</p>
     <p style="margin:0 0 16px;color:#71717a;font-size:13px;">If this was a mistake, you can resubscribe any time at the homepage.</p>
   `;
   const text =
     `Unsubscribed.\n\n` +
-    `You won't get any more emails from aboutai. No follow-ups, no "are you sure" sequence.\n\n` +
+    `You won't get any more emails from The AI Teardown. No follow-ups, no "are you sure" sequence.\n\n` +
     `If this was a mistake, resubscribe at the homepage.\n`;
   return {
     to: args.email,
-    subject: "You've been unsubscribed from aboutai",
+    subject: "You've been unsubscribed from The AI Teardown",
     html: wrapHtml({ preheader, bodyHtml }),
     text,
   };

@@ -14,7 +14,7 @@ function resolveDestination(
   try {
     const u = new URL(rawUrl);
     if (!u.searchParams.has("utm_source")) {
-      u.searchParams.set("utm_source", "aboutai");
+      u.searchParams.set("utm_source", "theaiteardown");
     }
     if (!u.searchParams.has("utm_medium")) {
       u.searchParams.set("utm_medium", "edge_rail");
