@@ -13,7 +13,7 @@ export function EdgeAdRail({ side }: EdgeAdRailProps) {
   const labelByClass = {
     sponsor: "Sponsor",
     exchange: "Partner",
-    house: "From The AI Teardown",
+    house: "From The AI Daily",
   } as const;
 
   // Sticky narrow vertical rail. Hidden < md. Doesn't push main content

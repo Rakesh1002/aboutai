@@ -16,16 +16,16 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 const TITLE =
-  "The AI Teardown — 5 minutes of AI for Indian builders, daily. Plus weekly teardowns from 30 production stacks.";
+  "The AI Daily — 5 minutes of AI for Indian builders, daily. Plus weekly teardowns from 30 production stacks.";
 const DESCRIPTION =
   "Daily 5-minute AI brief for Indian builders, Mon–Thu at 7am IST. Plus a weekly Friday teardown of one AI tool I'm actually paying for across 30 production stacks — screenshots, configs, latency, billing, verdict. No affiliates, no hype.";
-const SITE_URL = "https://theaiteardown.com";
+const SITE_URL = "https://theaidaily.in";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: TITLE,
-    template: "%s · The AI Teardown",
+    template: "%s · The AI Daily",
   },
   description: DESCRIPTION,
   authors: [{ name: "Rakesh Roushan", url: "https://x.com/rakesh1002" }],
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE_URL,
-    siteName: "The AI Teardown",
+    siteName: "The AI Daily",
     title: TITLE,
     description: DESCRIPTION,
   },

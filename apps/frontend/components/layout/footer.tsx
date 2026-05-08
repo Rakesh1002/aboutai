@@ -80,10 +80,10 @@ export function Footer() {
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-zinc-200 pt-8 dark:border-zinc-800 md:flex-row">
           <div className="flex items-center gap-2">
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-zinc-900 text-xs font-bold text-white dark:bg-white dark:text-zinc-900">
-              T
+              D
             </div>
             <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-              The AI Teardown
+              The AI Daily
             </span>
           </div>
 

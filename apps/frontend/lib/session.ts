@@ -5,7 +5,7 @@
 // signed string is smaller, faster, and harder to misuse. We also avoid
 // the JWT alg-confusion class of vulnerabilities entirely.
 
-const COOKIE_NAME = "tat_session";
+const COOKIE_NAME = "tad_session";
 const SESSION_DURATION_SEC = 60 * 60 * 24 * 365; // 1 year
 
 export type SessionTier = "free" | "paid" | "founder";

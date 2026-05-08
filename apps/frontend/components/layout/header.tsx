@@ -21,10 +21,10 @@ export function Header() {
       <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-sm font-bold text-white dark:bg-white dark:text-zinc-900">
-            T
+            D
           </div>
           <span className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-            The AI Teardown
+            The AI Daily
           </span>
         </Link>
 

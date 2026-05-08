@@ -14,7 +14,7 @@ export function InlineSponsor({ sponsorId }: InlineSponsorProps) {
   const labelByClass = {
     sponsor: "Today's sponsor",
     exchange: "Partner",
-    house: "From The AI Teardown",
+    house: "From The AI Daily",
   } as const;
 
   return (

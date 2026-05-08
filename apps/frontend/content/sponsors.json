@@ -2,7 +2,7 @@
   {
     "id": "house-stack",
     "klass": "house",
-    "advertiser": "The AI Teardown",
+    "advertiser": "The AI Daily",
     "headline": "What 30 startups actually run.",
     "body": "Live Stack Mirror — every AI tool we use in production across the portfolio, updated monthly with diffs. Free.",
     "cta": "See the stack",
@@ -14,7 +14,7 @@
   {
     "id": "house-friday",
     "klass": "house",
-    "advertiser": "The AI Teardown",
+    "advertiser": "The AI Daily",
     "headline": "Friday teardown drops at 7am IST.",
     "body": "30 production AI stacks, one tool ripped apart with screenshots, configs, latency, billing, and a verdict. No affiliates.",
     "cta": "Subscribe — free",
