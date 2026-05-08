@@ -16,7 +16,7 @@
     {
       "binding": "DB",
       "database_name": "aboutai",
-      "database_id": "REPLACE_WITH_REAL_D1_ID",
+      "database_id": "0874478e-4f18-4134-81fc-04ebfe9031fa",
       "migrations_dir": "migrations"
     }
   ],
@@ -30,7 +30,7 @@
   "kv_namespaces": [
     {
       "binding": "RATELIMITS",
-      "id": "REPLACE_WITH_REAL_KV_ID"
+      "id": "5d005779ec6342b2aec6c93be44bf44b"
     }
   ],
 
