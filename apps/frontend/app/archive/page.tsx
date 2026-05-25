@@ -26,7 +26,8 @@ export default function ArchivePage() {
       {essays.length === 0 ? (
         <div className="rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-10 text-center dark:border-zinc-700 dark:bg-zinc-900">
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            First teardown drops Friday May 22, 2026.
+            No public teardowns yet. The first teardown ships only after two
+            operator-seat pieces are banked and reviewed.
           </p>
           <div className="mx-auto mt-6 max-w-md">
             <NewsletterSignup variant="minimal" source="archive-empty" />

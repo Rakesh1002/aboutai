@@ -64,10 +64,11 @@ export function InlineEmailGate({
         Reading this whole thing?
       </p>
       <p className="mt-2 text-lg font-semibold leading-snug text-zinc-900 dark:text-zinc-100">
-        Get one honest AI tool teardown in your inbox every Friday morning.
+        Join the validation list for production-stack AI teardowns.
       </p>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        Free. No spam. Unsubscribe in one click.
+        Public sends start after the content and email gates pass. Free. No
+        spam. Unsubscribe in one click.
       </p>
 
       {status === "success" ? (

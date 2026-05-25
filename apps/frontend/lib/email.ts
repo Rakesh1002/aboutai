@@ -120,10 +120,10 @@ export function buildConfirmEmail(args: {
   confirmUrl: string;
 }): SendArgs {
   const preheader =
-    "Confirm your subscription to The AI Daily — one click, one teardown a week.";
+    "Confirm your subscription to The AI Daily validation list.";
   const bodyHtml = `
     <h1 style="font-size:22px;margin:0 0 16px;color:#18181b;">Confirm your subscription</h1>
-    <p style="margin:0 0 16px;">You asked to subscribe to <strong>The AI Daily</strong> — one honest AI tool teardown a week, written from running 30 production AI stacks.</p>
+    <p style="margin:0 0 16px;">You asked to subscribe to <strong>The AI Daily</strong> — a validation-stage publication for Indian AI builders, anchored on production teardowns from 30 AI stacks.</p>
     <p style="margin:0 0 24px;">Click the button below to confirm. (If you didn't sign up, just ignore this email — you're not on the list.)</p>
     <p style="margin:0 0 24px;">
       <a href="${args.confirmUrl}" style="display:inline-block;background:#18181b;color:#fff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:600;">Confirm subscription</a>
@@ -133,7 +133,7 @@ export function buildConfirmEmail(args: {
   `;
   const text =
     `Confirm your subscription to The AI Daily.\n\n` +
-    `The AI Daily is one honest AI tool teardown a week, written from running 30 production AI stacks.\n\n` +
+    `The AI Daily is a validation-stage publication for Indian AI builders, anchored on production teardowns from 30 AI stacks.\n\n` +
     `Confirm here:\n${args.confirmUrl}\n\n` +
     `If you didn't sign up, just ignore this email — you're not on the list.\n`;
   return {
@@ -150,28 +150,30 @@ export function buildWelcomeEmail(args: {
   siteUrl: string;
 }): SendArgs {
   const preheader =
-    "You're in. First teardown drops Friday May 22, 2026 — IST morning.";
+    "You're in. Public sends begin after the validation gates pass.";
   const bodyHtml = `
     <h1 style="font-size:22px;margin:0 0 16px;color:#18181b;">You're in.</h1>
     <p style="margin:0 0 16px;">Thanks for subscribing to <strong>The AI Daily</strong>. Here's what to expect:</p>
     <ul style="margin:0 0 16px;padding-left:20px;color:#27272a;">
-      <li style="margin:0 0 8px;">One long-form teardown of a real AI tool, every Friday morning IST.</li>
+      <li style="margin:0 0 8px;">A controlled 30-day validation sprint before this becomes a public daily publication.</li>
+      <li style="margin:0 0 8px;">Long-form teardowns of real AI tools from 30 production stacks.</li>
       <li style="margin:0 0 8px;">Screenshots, configs, latency numbers, billing line items — receipts only.</li>
       <li style="margin:0 0 8px;">A three-state verdict: <em>Ship it</em>, <em>Trial only</em>, or <em>Avoid</em>.</li>
       <li style="margin:0 0 8px;">No affiliates, no hype, no sponsored conclusions.</li>
     </ul>
-    <p style="margin:0 0 16px;">First teardown drops <strong>Friday May 22, 2026</strong>: <em>"What we ripped out of 30 startups in Q1 2026."</em></p>
+    <p style="margin:0 0 16px;">Public sends start only after 4 daily issues, 2 teardowns, and the email delivery loop are ready.</p>
     <p style="margin:0 0 16px;">In the meantime, the live Stack Mirror — every AI tool I'm currently running across the portfolio — is at <a href="${args.siteUrl}/stack" style="color:#18181b;">${escapeHtml(args.siteUrl)}/stack</a>.</p>
     <p style="margin:24px 0 0;color:#71717a;font-size:13px;">— Rakesh</p>
   `;
   const text =
     `You're in.\n\n` +
     `Thanks for subscribing to The AI Daily. Here's what to expect:\n\n` +
-    `- One long-form teardown of a real AI tool, every Friday morning IST.\n` +
+    `- A controlled 30-day validation sprint before this becomes a public daily publication.\n` +
+    `- Long-form teardowns of real AI tools from 30 production stacks.\n` +
     `- Screenshots, configs, latency numbers, billing line items.\n` +
     `- A three-state verdict: Ship it, Trial only, or Avoid.\n` +
     `- No affiliates, no hype, no sponsored conclusions.\n\n` +
-    `First teardown drops Friday May 22, 2026: "What we ripped out of 30 startups in Q1 2026."\n\n` +
+    `Public sends start only after 4 daily issues, 2 teardowns, and the email delivery loop are ready.\n\n` +
     `Live Stack Mirror: ${args.siteUrl}/stack\n\n` +
     `— Rakesh\n\n` +
     `Unsubscribe: ${args.unsubscribeUrl}\n`;
