@@ -36,7 +36,16 @@ export default function DailyIndexPage() {
       </header>
 
       {dailies.length === 0 ? (
-        <p className="text-zinc-500">First daily ships Tue, May 12, 2026.</p>
+        <div className="rounded-xl border border-dashed border-zinc-300 bg-zinc-50 p-8 dark:border-zinc-700 dark:bg-zinc-900">
+          <p className="font-medium text-zinc-900 dark:text-zinc-100">
+            No public dailies yet.
+          </p>
+          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+            The public launch is blocked until 4 daily issues and 2 Friday
+            teardowns are banked, and the email loop has been verified
+            end-to-end.
+          </p>
+        </div>
       ) : (
         <ul className="divide-y divide-zinc-200 dark:divide-zinc-800">
           {dailies.map((daily) => (

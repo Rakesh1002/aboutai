@@ -98,10 +98,11 @@ export function NewsletterSignup({
         id="subscribe"
       >
         <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">
-          Weekly AI tool teardown
+          Join the validation list
         </h3>
         <p className="mt-1 text-sm text-zinc-500">
-          Free. Friday morning IST. Unsubscribe in one click.
+          Public sends start after the content and email gates pass.
+          Unsubscribe in one click.
         </p>
         <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
           <Input

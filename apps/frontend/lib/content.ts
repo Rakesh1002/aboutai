@@ -1,5 +1,4 @@
 import stackData from "@/content/stack.json";
-import { daily20260512 } from "@/content/daily/2026-05-12";
 
 export type EssayType =
   | "teardown"
@@ -81,10 +80,9 @@ export interface StackStartup {
 const ESSAYS: Essay[] = [];
 
 // Daily Rundowns are TS modules (structured, not prose) — one per weekday Mon–Thu.
-// Each new daily ships as a new file under content/daily/YYYY-MM-DD.ts and is
-// registered here. The aggregation pipeline writes draft files; humans edit and
-// promote status to "published" before this list ships.
-const DAILIES: Daily[] = [daily20260512];
+// Only register banked, human-reviewed issues here. The May 2026 public launch
+// is explicitly blocked until 4 dailies + 2 teardowns are ready.
+const DAILIES: Daily[] = [];
 
 export function getAllEssays(): Essay[] {
   return ESSAYS.filter((e) => e.status !== "draft").sort((a, b) => {

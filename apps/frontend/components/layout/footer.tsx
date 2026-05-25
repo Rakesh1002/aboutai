@@ -8,7 +8,6 @@ const footerLinks = {
   ],
   about: [
     { name: "About", href: "/about" },
-    { name: "Sponsor", href: "/sponsor" },
     { name: "Contact", href: "mailto:rr@roushan.xyz" },
   ],
   legal: [

@@ -49,7 +49,7 @@ export function Header() {
           href="/#subscribe"
           className="hidden h-8 items-center justify-center gap-1.5 rounded-md bg-zinc-900 px-3 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100 md:inline-flex"
         >
-          Subscribe
+          Join list
         </Link>
 
         <button
@@ -106,7 +106,7 @@ export function Header() {
               onClick={() => setMobileMenuOpen(false)}
               className="inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-md bg-zinc-900 px-3 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
             >
-              Subscribe
+              Join list
             </Link>
           </div>
         </div>

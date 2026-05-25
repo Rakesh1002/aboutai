@@ -16,9 +16,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 const TITLE =
-  "The AI Daily — 5 minutes of AI for Indian builders, daily. Plus weekly teardowns from 30 production stacks.";
+  "The AI Daily — validation-stage AI teardowns for Indian builders.";
 const DESCRIPTION =
-  "Daily 5-minute AI brief for Indian builders, Mon–Thu at 7am IST. Plus a weekly Friday teardown of one AI tool I'm actually paying for across 30 production stacks — screenshots, configs, latency, billing, verdict. No affiliates, no hype.";
+  "A validation-stage publication for Indian AI builders, anchored on operator-seat teardowns from 30 production stacks. Public sends start only after content and email-readiness gates pass.";
 const SITE_URL = "https://theaidaily.in";
 
 export const metadata: Metadata = {

@@ -5,34 +5,34 @@ import { formatShortDate } from "@/lib/utils";
 
 const UPCOMING = [
   {
-    when: "Tue May 12",
-    kind: "Daily",
-    title: "First daily ships at 7am IST",
-    note: "Five things that landed yesterday + what each means for an Indian builder. Then Mon–Thu, every week.",
+    when: "Gate 1",
+    kind: "Content bank",
+    title: "4 daily issues banked",
+    note: "No public send until four dated rundowns are written, sourced, human-edited, and ready to publish.",
   },
   {
-    when: "Fri May 15",
-    kind: "Teardown",
-    title: "What we ripped out of 30 startups in Q1 2026",
-    note: "Every AI tool I tried and dropped across the portfolio in Jan–Mar. Why each one left.",
+    when: "Gate 2",
+    kind: "Teardowns",
+    title: "2 operator-seat teardowns banked",
+    note: "The wedge is production receipts from 30 stacks. Generic daily news does not launch without this proof.",
   },
   {
-    when: "Fri May 22",
-    kind: "Teardown",
-    title: "Workers AI vs OpenAI vs Groq — three months of bills",
-    note: "Real invoices, redacted org names. P50/P99 latency at $X/month and Y QPS. The cost surprise nobody warned me about.",
+    when: "Gate 3",
+    kind: "Delivery",
+    title: "Signup, confirm, unsubscribe, and test broadcast verified",
+    note: "The list must prove the full email loop before any public launch tweet goes out.",
   },
   {
-    when: "Fri May 29",
-    kind: "Teardown",
-    title: "Six AI sales-agent tools, real Indian inbox, one week",
-    note: "Forensic, screenshot-heavy, names named. Two of six were silently using GPT-3.5.",
+    when: "30 days",
+    kind: "Validation",
+    title: "12+ dailies, 4 teardowns, 500–1,000 subscribers",
+    note: "Continue only if the sprint shows 40%+ open rate and one real sponsor conversation or paid pilot.",
   },
   {
-    when: "Fri Jun 12",
-    kind: "Teardown",
-    title: "Razorpay + Stripe + Cashfree for Indian SaaS",
-    note: "Which actually plays nice with India-first billing. UPI auto-debit reality check.",
+    when: "Decision",
+    kind: "Go / no-go",
+    title: "Continue only if operator-seat content pulls",
+    note: "If the most-shared work is generic news, fold this into AudioPod content marketing.",
   },
 ];
 
@@ -50,7 +50,7 @@ export default function HomePage() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
-            First daily Tue May 12 · First teardown Fri May 15
+            Validation list open · public launch gated
           </div>
 
           <h1 className="text-balance text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 sm:text-5xl">
@@ -60,9 +60,10 @@ export default function HomePage() {
           </h1>
 
           <p className="mt-6 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-            Mon–Thu at 7am IST: five things that landed yesterday and what each
-            one means for an Indian builder shipping AI in production this
-            week. Friday: a long-form teardown of one tool I&apos;m actually
+            The public launch is intentionally gated. Mon–Thu will be five
+            things that landed yesterday and what each one means for an Indian
+            builder shipping AI in production this week. Friday will be a
+            long-form teardown of one tool I&apos;m actually
             paying for across 30 stacks — screenshots, configs, latency
             numbers, billing line items, verdict.{" "}
             <span className="font-medium text-zinc-900 dark:text-zinc-100">
@@ -73,7 +74,8 @@ export default function HomePage() {
           <div className="mt-10">
             <NewsletterSignup variant="minimal" />
             <p className="mt-3 text-xs text-zinc-500">
-              Free. Daily Mon–Thu + Friday teardown. Unsubscribe in one click.
+              Free validation list. Public send starts only after the readiness
+              gates pass. Unsubscribe in one click.
             </p>
           </div>
         </div>
@@ -120,7 +122,7 @@ export default function HomePage() {
       <section className="border-b border-zinc-200 dark:border-zinc-800">
         <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
-            What lands in your inbox over the next 4 weeks
+            What has to be true before public launch
           </h2>
           <ul className="mt-6 divide-y divide-zinc-200 dark:divide-zinc-800">
             {UPCOMING.map((item) => (
@@ -217,7 +219,7 @@ export default function HomePage() {
       <section>
         <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
           <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            Get tomorrow&apos;s daily Tuesday morning IST.
+            Join the validation list.
           </h2>
           <div className="mx-auto mt-8 max-w-md">
             <NewsletterSignup variant="minimal" />

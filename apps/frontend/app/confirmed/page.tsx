@@ -8,11 +8,11 @@ export const metadata = {
 const COPY = {
   ok: {
     title: "You're confirmed.",
-    body: "You'll get the first teardown Friday May 22, 2026 — IST morning. Until then, the live Stack Mirror has every AI tool currently running across the portfolio.",
+    body: "You're on the validation list. The first public send will go out only after the content bank and email delivery gates pass. Until then, the live Stack Mirror has every AI tool currently running across the portfolio.",
   },
   already: {
     title: "Already confirmed.",
-    body: "You're on the list — no action needed. First teardown drops Friday May 22, 2026.",
+    body: "You're already on the validation list — no action needed. Public sends start after the launch gates pass.",
   },
   expired: {
     title: "Confirmation link expired.",
