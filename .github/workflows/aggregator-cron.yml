@@ -1,0 +1,72 @@
+name: Aggregator cron
+
+# Mon–Thu IST 4:00am = Sun–Wed UTC 22:30. The cron POSTs to the
+# /api/aggregate/run endpoint on the live Worker; the Worker pulls RSS,
+# scores + dedupes against D1, calls the LLM, and persists a draft.
+# A human reviews the draft via /api/aggregate/draft/<date>?format=ts and
+# commits the resulting content/daily/<date>.ts before the 7am IST send.
+on:
+  schedule:
+    - cron: "30 22 * * 0-3"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Override date (YYYY-MM-DD, IST). Empty = today IST."
+        required: false
+        type: string
+      dry_run:
+        description: "Dry run (skip LLM + persist)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  run-aggregator:
+    name: Run aggregator
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST /api/aggregate/run
+        env:
+          AGGREGATOR_URL: ${{ vars.AGGREGATOR_URL }}
+          CRON_SECRET: ${{ secrets.AGGREGATOR_CRON_SECRET }}
+          OVERRIDE_DATE: ${{ inputs.date }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          if [ -z "${AGGREGATOR_URL:-}" ]; then
+            AGGREGATOR_URL="https://theaidaily.in/api/aggregate/run"
+          fi
+          if [ -z "${CRON_SECRET:-}" ]; then
+            echo "AGGREGATOR_CRON_SECRET not configured" >&2
+            exit 1
+          fi
+          payload="{}"
+          if [ -n "${OVERRIDE_DATE:-}" ]; then
+            payload=$(jq -nc --arg d "$OVERRIDE_DATE" '{date:$d}')
+          fi
+          if [ "${DRY_RUN:-false}" = "true" ]; then
+            payload=$(echo "$payload" | jq -c '. + {dryRun:true}')
+          fi
+          echo "POST $AGGREGATOR_URL  payload=$payload"
+          http_status=$(curl -sS -o response.json -w "%{http_code}" \
+            -X POST "$AGGREGATOR_URL" \
+            -H "authorization: Bearer ${CRON_SECRET}" \
+            -H "content-type: application/json" \
+            --data "$payload")
+          echo "HTTP $http_status"
+          jq . response.json || cat response.json
+          if [ "$http_status" != "200" ]; then
+            exit 1
+          fi
+          ok=$(jq -r '.ok' response.json)
+          status=$(jq -r '.status' response.json)
+          if [ "$ok" != "true" ]; then
+            echo "Pipeline reported failure" >&2
+            exit 1
+          fi
+          if [ "$status" = "no-candidates" ]; then
+            echo "::warning::Pipeline ran but produced no candidates"
+          fi

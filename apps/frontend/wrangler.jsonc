@@ -38,6 +38,11 @@
     "SITE_URL": "https://theaidaily.in",
     "FROM_EMAIL": "hello@theaidaily.in",
     "FROM_NAME": "Rakesh from The AI Daily",
-    "BULK_EMAIL_PROVIDER": "none"
+    "BULK_EMAIL_PROVIDER": "none",
+    "ANTHROPIC_MODEL": "claude-opus-4-7"
   }
+  // Required secrets (set via `wrangler secret put <NAME>`):
+  //   ANTHROPIC_API_KEY  — Anthropic Messages API key (for the daily drafter)
+  //   CRON_SECRET        — bearer token expected on /api/aggregate/* (cron role)
+  //   ADMIN_TOKEN        — bearer token for write actions (sources mgmt, status flip)
 }

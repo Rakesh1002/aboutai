@@ -22,6 +22,12 @@ declare global {
     BULK_EMAIL_PROVIDER: "none" | "resend" | "ses";
     RESEND_API_KEY?: string;
     SESSION_SECRET?: string;
+
+    // Aggregator pipeline
+    ANTHROPIC_API_KEY?: string;
+    ANTHROPIC_MODEL?: string;
+    CRON_SECRET?: string;
+    ADMIN_TOKEN?: string;
   }
 }
 
