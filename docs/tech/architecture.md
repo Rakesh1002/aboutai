@@ -54,3 +54,6 @@ Do not document or build these as active architecture until validation passes:
 ## Content Safety Rule
 
 Only banked, human-reviewed content is registered in `lib/content.ts`. Drafts may live in the repo, but they must not be included in public content arrays until they are ready to publish.
+
+---
+**Owner:** Rakesh Roushan · **Last reviewed:** 2026-06-21 · **Review by:** 2026-09-21

@@ -54,3 +54,6 @@ Blocked until validation passes:
 - 1 real sponsor conversation or paid pilot.
 
 Continue only if the strongest reader pull is for operator-seat teardowns. If the pull is generic AI news, fold into AudioPod content marketing.
+
+---
+**Owner:** Rakesh Roushan · **Last reviewed:** 2026-06-21 · **Review by:** 2026-09-21

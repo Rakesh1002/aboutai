@@ -101,3 +101,6 @@ The sprint is not judged on MRR. It is judged on whether the operator-seat teard
 **No-go:** fold into AudioPod content marketing if the audience mostly responds to generic AI news, if cadence breaks before 4 teardowns, or if the 30-day sprint misses both subscriber and commercial-signal thresholds.
 
 **Do not build Phase 2** until the validation sprint passes.
+
+---
+**Owner:** Rakesh Roushan · **Last reviewed:** 2026-06-21 · **Review by:** 2026-09-21

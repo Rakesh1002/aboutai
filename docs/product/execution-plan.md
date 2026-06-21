@@ -62,3 +62,6 @@ Targets:
 ## 5. Decision
 
 Continue only if teardown content proves stronger pull than generic AI news. Otherwise fold into AudioPod content marketing.
+
+---
+**Owner:** Rakesh Roushan · **Last reviewed:** 2026-06-21 · **Review by:** 2026-09-21

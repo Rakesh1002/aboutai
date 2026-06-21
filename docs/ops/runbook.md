@@ -45,3 +45,6 @@ After deploy:
 - Unsubscribe link redirects to `/unsubscribed`.
 
 Do not send a public issue until one private test broadcast has succeeded.
+
+---
+**Owner:** Rakesh Roushan · **Last reviewed:** 2026-06-21 · **Review by:** 2026-09-21

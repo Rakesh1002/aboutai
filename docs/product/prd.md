@@ -71,3 +71,6 @@ Qualitative pass condition: teardown content must drive stronger replies, shares
 - Do not show sample news as real news.
 - Do not advertise paid products before validation.
 - Keep the reader promise centered on production receipts: screenshots, configs, costs, latency, what broke, and verdict.
+
+---
+**Owner:** Rakesh Roushan · **Last reviewed:** 2026-06-21 · **Review by:** 2026-09-21

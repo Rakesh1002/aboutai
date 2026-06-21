@@ -93,3 +93,6 @@ Target outcomes:
 4. Verify email flows and a test broadcast.
 5. Start the 30-day sprint.
 6. Decide go/no-go based on teardown pull, not projected MRR.
+
+---
+**Owner:** Rakesh Roushan · **Last reviewed:** 2026-06-21 · **Review by:** 2026-09-21
